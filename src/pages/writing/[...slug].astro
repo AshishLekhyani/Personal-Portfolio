@@ -21,10 +21,10 @@ const formatted = post.data.date.toLocaleDateString('en-US', { year: 'numeric', 
   <Header />
   <main>
     <article class="mx-auto max-w-2xl px-6 pb-16 pt-16 sm:pt-24">
-      <a href="/writing" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)]">← Writing</a>
-      <h1 class="mt-4 text-2xl font-semibold tracking-tight">{post.data.title}</h1>
-      <p class="mt-2 text-xs text-[var(--color-text-muted)]">{formatted}</p>
-      <div class="prose prose-sm mt-8 max-w-none text-[var(--color-text)] prose-headings:font-medium prose-a:text-[var(--color-accent)]">
+      <a href="/writing" class="text-sm text-ink-soft hover:text-ink">← Writing</a>
+      <h1 class="mt-4 font-serif text-2xl italic text-ink">{post.data.title}</h1>
+      <p class="mt-2 font-mono text-xs text-ink-soft [font-variant-ligatures:none]">{formatted}</p>
+      <div class="prose prose-sm mt-8 max-w-none text-ink prose-headings:font-serif prose-headings:italic prose-a:text-accent">
         <Content />
       </div>
     </article>

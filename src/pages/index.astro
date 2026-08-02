@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ProjectList from '../components/ProjectList.astro';
 import ExperienceRow from '../components/ExperienceRow.astro';
 import PostCard from '../components/PostCard.astro';
 import Footer from '../components/Footer.astro';
 import { projects } from '../data/projects';
-import { experience, education } from '../data/experience';
+import { experience, volunteering, education } from '../data/experience';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('writing', ({ data }) => !data.draft))
@@ -17,23 +17,28 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft))
 
 <Layout>
   <Header />
-  <main>
+  <main data-resume class="max-w-none">
     <Hero />
 
-    <section id="projects" class="mx-auto max-w-2xl px-6 py-10">
-      <h2 class="text-lg font-medium">Projects</h2>
+    <section id="projects" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
+      <h2 class="font-serif text-[17px] text-accent italic">projects</h2>
       <div class="mt-6">
-        {projects.map((project) => <ProjectCard project={project} />)}
+        <ProjectList projects={projects} lead={2} />
       </div>
     </section>
 
-    <section id="experience" class="mx-auto max-w-2xl px-6 py-10">
-      <h2 class="text-lg font-medium">Experience</h2>
+    <section id="experience" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
+      <h2 class="font-serif text-[17px] text-accent italic">experience</h2>
       <div class="mt-6">
         {experience.map((item) => <ExperienceRow {...item} />)}
       </div>
 
-      <h3 class="mt-10 text-sm font-medium text-[var(--color-text-muted)]">Education</h3>
+      <h3 class="mt-10 font-serif text-[15px] text-accent italic">volunteering</h3>
+      <div class="mt-4">
+        {volunteering.map((item) => <ExperienceRow {...item} />)}
+      </div>
+
+      <h3 class="mt-10 font-serif text-[15px] text-accent italic">education</h3>
       <div class="mt-4">
         {education.map((item) => (
           <ExperienceRow role={item.degree} org={item.org} dates={item.dates} description={item.detail} />
@@ -41,10 +46,10 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft))
       </div>
     </section>
 
-    <section id="writing" class="mx-auto max-w-2xl px-6 py-10">
+    <section id="writing" data-print-hide class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
       <div class="flex items-baseline justify-between">
-        <h2 class="text-lg font-medium">Writing</h2>
-        <a href="/writing" class="text-sm text-[var(--color-accent)] hover:underline">All posts →</a>
+        <h2 class="font-serif text-[17px] text-accent italic">writing</h2>
+        <a href="/writing" class="link font-mono text-xs text-ink-soft [font-variant-ligatures:none]">all posts →</a>
       </div>
       <div class="mt-6">
         {posts.length > 0 ? (
@@ -52,7 +57,7 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft))
             <PostCard slug={post.id} title={post.data.title} description={post.data.description} date={post.data.date} />
           ))
         ) : (
-          <p class="text-sm text-[var(--color-text-muted)]">Nothing published yet — check back soon.</p>
+          <p class="text-sm text-ink-soft">Nothing published yet — check back soon.</p>
         )}
       </div>
     </section>

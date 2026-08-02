@@ -20,6 +20,9 @@ export const experience: ExperienceItem[] = [
     description:
       'Co-founded an Ayurvedic medicine venture, leading product and technology.',
   },
+];
+
+export const volunteering: ExperienceItem[] = [
   {
     role: 'Student Coordinator (Co-Lead)',
     org: 'SOCH Social Club, Jaipur',

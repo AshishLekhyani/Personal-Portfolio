@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/print.css';
 
 interface Props {
   title?: string;
@@ -52,5 +53,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <slot />
+    <script is:inline>
+      document.querySelector('[data-print-resume]')?.addEventListener('click', () => window.print());
+    </script>
   </body>
 </html>

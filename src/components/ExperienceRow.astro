@@ -9,12 +9,12 @@ interface Props {
 const { role, org, dates, description } = Astro.props;
 ---
 
-<div class="border-b border-[var(--color-border)] py-5 first:pt-0 last:border-b-0">
+<div class="border-b border-rule-dot py-5 first:pt-0 last:border-b-0" data-resume-entry>
   <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-    <p class="text-sm font-medium">
-      {role} <span class="font-normal text-[var(--color-text-muted)]">— {org}</span>
+    <p class="font-sans text-sm font-bold text-ink" data-entry-name>
+      {role} <span class="font-normal text-ink-muted">— {org}</span>
     </p>
-    <span class="text-xs text-[var(--color-text-muted)]">{dates}</span>
+    <span class="font-mono text-xs text-ink-soft [font-variant-ligatures:none]" data-entry-meta>{dates}</span>
   </div>
-  {description && <p class="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">{description}</p>}
+  {description && <p class="mt-2 text-sm leading-relaxed text-ink-muted" data-entry-desc>{description}</p>}
 </div>
