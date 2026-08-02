@@ -5,8 +5,13 @@ export interface Project {
   liveUrl?: string;
   codeUrl?: string;
   date: string;
+  /** ISO date, used for the "latest" sort — not shown directly. */
+  sortDate: string;
 }
 
+// Default (authored) order doubles as "relevance": most involved / most
+// impressive first. Update by hand as that changes — it's a judgment call,
+// not something derivable from the data.
 export const projects: Project[] = [
   {
     name: 'EnvSync',
@@ -16,6 +21,7 @@ export const projects: Project[] = [
     liveUrl: 'https://envsync-five.vercel.app',
     codeUrl: 'https://github.com/AshishLekhyani/EnvSync',
     date: 'Jul 2026',
+    sortDate: '2026-07-31',
   },
   {
     name: 'GitScope',
@@ -25,6 +31,7 @@ export const projects: Project[] = [
     liveUrl: 'https://git-scope-pi.vercel.app',
     codeUrl: 'https://github.com/AshishLekhyani/GitScope',
     date: 'Apr 2026',
+    sortDate: '2026-04-30',
   },
   {
     name: 'Video Codex',
@@ -34,14 +41,7 @@ export const projects: Project[] = [
     liveUrl: 'https://ashishlekhyani-video-codex.hf.space',
     codeUrl: 'https://github.com/AshishLekhyani/Video-Codex',
     date: 'Apr 2026',
-  },
-  {
-    name: 'Steno Dexter',
-    description:
-      'Freelance client project: the platform for an online Pitman Shorthand training program preparing students for government stenography exams (SSC, RSMSSB, High Courts, District Courts, Railways) — course enrollment, daily dictations, weekly tests, and performance tracking.',
-    tech: ['Next.js', 'Freelance client work'],
-    liveUrl: 'https://stenodexter.com',
-    date: '2026',
+    sortDate: '2026-04-07',
   },
   {
     name: 'TimerGame',
@@ -50,6 +50,7 @@ export const projects: Project[] = [
     tech: ['React.js', 'Vite', 'React Portals'],
     codeUrl: 'https://github.com/AshishLekhyani/TimerGame',
     date: 'Feb 2026',
+    sortDate: '2026-02-01',
   },
   {
     name: 'NutriBite',
@@ -58,5 +59,6 @@ export const projects: Project[] = [
     tech: ['HTML5', 'CSS3', 'Responsive Design'],
     codeUrl: 'https://github.com/AshishLekhyani/NutriBite',
     date: 'Oct 2025',
+    sortDate: '2025-10-01',
   },
 ];

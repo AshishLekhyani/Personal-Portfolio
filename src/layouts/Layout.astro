@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = 'Ashish Lekhyani — Full-Stack Developer',
-  description = 'Ashish Lekhyani is a freelance full-stack developer building complete products — from database schema to the UI on top.',
+  title = 'Ashish Lekhyani — Software Engineer',
+  description = 'Ashish Lekhyani is a freelance software engineer building complete products — from database schema to the UI on top.',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -55,6 +55,133 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <slot />
     <script is:inline>
       document.querySelector('[data-print-resume]')?.addEventListener('click', () => window.print());
+    </script>
+    <script>
+      // Wires every fold section on the page: smooth expand/collapse (via WAAPI
+      // height animation, since native <details> just snaps open/closed), the
+      // companion "show all" button in the heading, and relevance/latest sort
+      // where a section opts in with [data-sort-controls].
+      document.querySelectorAll('[data-fold-section]').forEach((section) => {
+        if ((section as HTMLElement).dataset.foldReady) return;
+        (section as HTMLElement).dataset.foldReady = '1';
+
+        const details = section.querySelector<HTMLDetailsElement>('details.fold');
+        const foldAllBtn = section.querySelector<HTMLButtonElement>('[data-fold-all]');
+        const summary = details?.querySelector<HTMLElement>(':scope > summary');
+        const rest = details?.querySelector<HTMLElement>('[data-rest]');
+
+        let animation: Animation | null = null;
+        let isClosing = false;
+        let isExpanding = false;
+
+        const syncLabel = () => {
+          if (!details || !foldAllBtn) return;
+          foldAllBtn.textContent = details.open ? 'fold back ↑' : 'show all ↓';
+          foldAllBtn.setAttribute('aria-expanded', String(details.open));
+        };
+
+        const finish = (open: boolean) => {
+          if (!details) return;
+          details.open = open;
+          animation = null;
+          isClosing = false;
+          isExpanding = false;
+          details.style.height = '';
+          details.style.overflow = '';
+          syncLabel();
+        };
+
+        const expand = () => {
+          if (!details || !summary || !rest) return;
+          isExpanding = true;
+          details.style.overflow = 'hidden';
+          const startHeight = details.offsetHeight;
+          details.style.height = `${startHeight}px`;
+          details.open = true;
+          requestAnimationFrame(() => {
+            const endHeight = summary.offsetHeight + rest.offsetHeight;
+            animation?.cancel();
+            animation = details.animate(
+              { height: [`${startHeight}px`, `${endHeight}px`] },
+              { duration: 320, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' }
+            );
+            animation.onfinish = () => finish(true);
+            animation.oncancel = () => {
+              isExpanding = false;
+            };
+          });
+        };
+
+        const collapse = () => {
+          if (!details || !summary) return;
+          isClosing = true;
+          details.style.overflow = 'hidden';
+          const startHeight = details.offsetHeight;
+          const endHeight = summary.offsetHeight;
+          animation?.cancel();
+          animation = details.animate(
+            { height: [`${startHeight}px`, `${endHeight}px`] },
+            { duration: 260, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' }
+          );
+          animation.onfinish = () => finish(false);
+          animation.oncancel = () => {
+            isClosing = false;
+          };
+        };
+
+        const toggle = () => {
+          if (!details) return;
+          if (isClosing || !details.open) expand();
+          else if (isExpanding || details.open) collapse();
+        };
+
+        if (details && summary && rest) {
+          summary.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggle();
+          });
+
+          if (foldAllBtn) {
+            foldAllBtn.hidden = false;
+            foldAllBtn.addEventListener('click', toggle);
+          }
+
+          syncLabel();
+        }
+
+        const sortControls = section.querySelector<HTMLElement>('[data-sort-controls]');
+        const leadContainer = section.querySelector<HTMLElement>('[data-rows]:not([data-rest])');
+
+        if (sortControls && leadContainer && rest) {
+          const leadCount = leadContainer.children.length;
+          const key = (row: Element) => Number((row as HTMLElement).dataset.key) || 0;
+          const rank = (row: Element) => Number((row as HTMLElement).dataset.rank) || 0;
+          const compare: Record<string, (a: Element, b: Element) => number> = {
+            relevance: (a, b) => rank(a) - rank(b),
+            latest: (a, b) => key(b) - key(a) || rank(a) - rank(b),
+          };
+
+          sortControls.hidden = false;
+          sortControls.addEventListener('click', (e) => {
+            const option = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-sort]');
+            if (!option) return;
+
+            const order = option.dataset.sort ?? 'relevance';
+            const rows = [...leadContainer.children, ...rest.children];
+            const sorted = rows.sort(compare[order] ?? compare.relevance);
+
+            sorted.forEach((row, index) => {
+              (index < leadCount ? leadContainer : rest).append(row);
+            });
+
+            sortControls.querySelectorAll<HTMLButtonElement>('[data-sort]').forEach((opt) => {
+              opt.setAttribute('aria-pressed', String(opt.dataset.sort === order));
+            });
+
+            if (details && !details.open) expand();
+          });
+        }
+      });
     </script>
   </body>
 </html>

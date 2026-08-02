@@ -3,22 +3,23 @@ export interface ExperienceItem {
   org: string;
   dates: string;
   description: string;
+  link?: { label: string; url: string };
 }
 
 export const experience: ExperienceItem[] = [
   {
-    role: 'Freelance Full-Stack Developer',
-    org: 'Independent',
+    role: 'Software Engineer',
+    org: 'Freelance',
     dates: 'Jan 2026 — Present',
-    description:
-      'Building full-stack products end to end for clients and my own ventures, including EnvSync (secrets management) and GitScope (GitHub analytics).',
+    description: 'Full-stack development for clients, including Steno Dexter, a Pitman Shorthand exam-prep platform.',
+    link: { label: 'stenodexter.com', url: 'https://stenodexter.com' },
   },
   {
     role: 'Co-Founder',
     org: 'KalyanX',
     dates: 'Oct 2025 — Present',
     description:
-      'Co-founded an early-stage Ayurvedic medicine venture, owning product and technology end to end — from platform architecture to day-to-day build decisions — while co-founders lead the Ayurvedic formulation and business side.',
+      'Co-founded an early-stage Ayurvedic medicine venture, owning product and technology end to end.',
   },
 ];
 

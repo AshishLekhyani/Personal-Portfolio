@@ -1,8 +1,8 @@
 export const site = {
   name: 'Ashish Lekhyani',
-  role: 'Full-Stack Developer',
+  role: 'Software Engineer',
   tagline: 'I build full-stack products end to end — from the database schema to the pixels people click.',
-  bio: `Freelance full-stack developer based in Jaipur, India, working across the stack — React and Next.js on the front, Node/Express and PostgreSQL underneath. I like building whole systems rather than one layer of the stack: auth, data models, APIs, and the UI on top of them.
+  bio: `Freelance software engineer based in Jaipur, India, working across the stack — React and Next.js on the front, Node/Express and PostgreSQL underneath. I like building whole systems rather than one layer of the stack: auth, data models, APIs, and the UI on top of them.
 
 Most recently I built EnvSync, a secrets management platform with envelope encryption and a published CLI, and I'm currently co-founding KalyanX, an Ayurvedic medicine venture, leading the technology side.`,
   email: 'alekhyanisbi@gmail.com',
