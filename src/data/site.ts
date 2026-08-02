@@ -1,10 +1,11 @@
 export const site = {
   name: 'Ashish Lekhyani',
   role: 'Software Engineer',
-  tagline: "I build full-stack products end to end — same person writing the schema, the API, and the UI on top of it.",
-  status: 'Currently freelancing as a software engineer.',
-  intro:
-    'I like owning the whole stack — schema to UI — rather than just one layer of it. Most of what I build sits where web apps, dev tooling, and AI overlap.',
+  tagline: 'Building products with intention, one thoughtful iteration at a time.',
+  intro: [
+    "I enjoy building software that's fast, intuitive, and built with purpose. I'm constantly exploring new ideas, refining old ones, and learning how great products are designed from the first line of code to the final user experience.",
+    'For me, every project is an opportunity to solve a problem, learn something new, and leave the web a little better than I found it.',
+  ],
   email: 'alekhyanisbi@gmail.com',
 };
 

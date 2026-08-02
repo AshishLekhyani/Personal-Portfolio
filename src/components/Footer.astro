@@ -1,5 +1,5 @@
 ---
-import { site, socials } from '../data/site';
+import { site } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
@@ -14,13 +14,6 @@ const year = new Date().getFullYear();
       {site.email} ↗
     </a>
 
-    <div class="mt-10 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-ink-soft [font-variant-ligatures:none]">
-      <p>© {year} {site.name}</p>
-      <div class="flex gap-4">
-        {socials.map((s) => (
-          <a href={s.url} class="hover:text-ink">{s.label}</a>
-        ))}
-      </div>
-    </div>
+    <p class="mt-10 font-mono text-xs text-ink-soft [font-variant-ligatures:none]">© {year} {site.name}</p>
   </div>
 </footer>
