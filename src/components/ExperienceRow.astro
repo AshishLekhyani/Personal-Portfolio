@@ -3,15 +3,15 @@ interface Props {
   role: string;
   org: string;
   description?: string;
-  link?: { label: string; url: string };
   number?: number;
+  badge?: { label: string; url: string };
 }
 
-const { role, org, description, link, number } = Astro.props;
+const { role, org, description, number, badge } = Astro.props;
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<div class="grid grid-cols-[26px_minmax(0,1fr)] gap-x-3 py-5" data-resume-entry>
+<div class="row grid grid-cols-[26px_minmax(0,1fr)] gap-x-3 py-5" data-resume-entry>
   {number !== undefined && (
     <span class="pt-[3px] font-mono text-[11px] tracking-[0.02em] text-rule-solid [font-variant-ligatures:none]">
       {pad(number)}
@@ -26,10 +26,27 @@ const pad = (n: number) => String(n).padStart(2, '0');
       </span>
     </div>
     {description && <p class="mt-1.5 text-sm leading-relaxed text-ink-muted" data-entry-desc>{description}</p>}
-    {link && (
-      <a href={link.url} target="_blank" rel="noreferrer" class="link mt-1.5 inline-block font-mono text-[11px] text-ink-soft [font-variant-ligatures:none]">
-        {link.label} ↗
+
+    {badge && (
+      <a href={badge.url} target="_blank" rel="noreferrer" data-print-hide class="badge-slot mt-2.5 inline-flex w-max items-center gap-1 rounded-full border border-rule-dot px-2.5 py-1 font-mono text-[11px] text-ink-soft transition-colors hover:border-accent hover:text-ink [font-variant-ligatures:none]">
+        ↗ {badge.label}
       </a>
     )}
   </div>
 </div>
+
+<style>
+  .row {
+    position: relative;
+  }
+
+  @media (min-width: 900px) {
+    .badge-slot {
+      position: absolute;
+      top: 32px;
+      right: calc(100% + 22px);
+      margin: 0;
+      white-space: nowrap;
+    }
+  }
+</style>

@@ -3,7 +3,7 @@ export interface ExperienceItem {
   org: string;
   dates: string;
   description: string;
-  link?: { label: string; url: string };
+  badge?: { label: string; url: string };
 }
 
 export const experience: ExperienceItem[] = [
@@ -13,14 +13,14 @@ export const experience: ExperienceItem[] = [
     dates: 'Jan 2026 — Present',
     description:
       'Full-stack development for clients. Most recently built the platform for Steno Dexter, a Pitman Shorthand exam-prep service — course enrollment, daily dictations, weekly tests, and performance tracking for students preparing for government stenography exams (SSC, RSMSSB, High Courts, District Courts, Railways).',
-    link: { label: 'stenodexter.com', url: 'https://stenodexter.com' },
+    badge: { label: 'steno dexter', url: 'https://stenodexter.com' },
   },
   {
     role: 'Co-Founder',
     org: 'KalyanX',
     dates: 'Oct 2025 — Present',
     description:
-      'Co-founded an early-stage Ayurvedic medicine venture based in Rajsamand, Rajasthan, owning product and technology — architecture, build decisions, and day-to-day execution.',
+      'Co-founded an early-stage Ayurvedic medicine venture based in Rajsamand, owning product and technology — architecture, build decisions, and day-to-day execution.',
   },
 ];
 

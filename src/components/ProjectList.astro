@@ -19,13 +19,6 @@ const below = numbered.slice(lead);
     <button type="button" data-fold-all hidden class="fold-all font-mono text-[11px] tracking-[0.04em] text-ink-soft whitespace-nowrap [font-variant-ligatures:none]">show all ↓</button>
   </div>
 
-  <div data-sort-controls hidden class="sort font-mono text-[10.5px] tracking-[0.06em] text-ink-soft [font-variant-ligatures:none]">
-    <span>sort</span>
-    <button type="button" class="sort-option" data-sort="relevance" aria-pressed="true">relevance</button>
-    <span aria-hidden="true">&middot;</span>
-    <button type="button" class="sort-option" data-sort="latest" aria-pressed="false">latest</button>
-  </div>
-
   <div class="mt-6 divide-y divide-rule-dot" data-rows>
     {above.map(({ project, rank }) => (
       <div data-rank={rank} data-key={new Date(project.sortDate).getTime()}>

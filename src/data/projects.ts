@@ -48,6 +48,7 @@ export const projects: Project[] = [
     description:
       'A millisecond-accurate timer/reaction game — stop the clock as close as you can to a target time. Built around imperative React patterns (forwardRef, useImperativeHandle) to expose a clean, encapsulated API from the timer component without breaking the declarative parent-child boundary, and React Portals for the results modal.',
     tech: ['React.js', 'Vite', 'React Portals'],
+    liveUrl: 'https://timergame-app.netlify.app',
     codeUrl: 'https://github.com/AshishLekhyani/TimerGame',
     date: 'Feb 2026',
     sortDate: '2026-02-01',
@@ -57,6 +58,7 @@ export const projects: Project[] = [
     description:
       "A mobile-first landing page built on plain semantic HTML5 and hand-written CSS Grid/Flexbox — no framework. The focus was eliminating layout shift across breakpoints with custom grid media rules, which cut initial paint time by roughly 25%.",
     tech: ['HTML5', 'CSS3', 'Responsive Design'],
+    liveUrl: 'https://nutribite-app.netlify.app',
     codeUrl: 'https://github.com/AshishLekhyani/NutriBite',
     date: 'Oct 2025',
     sortDate: '2025-10-01',

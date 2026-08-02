@@ -10,10 +10,16 @@ const navLinks = [
 ---
 
 <header data-print-hide class="sticky top-0 z-50 border-b border-rule-dot bg-paper/85 backdrop-blur">
-  <div class="flex flex-col items-start gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:px-5 sm:py-4">
-    <a href="/" class="wordmark shrink-0 font-serif text-lg italic text-ink sm:text-xl">
-      {site.name}<span class="text-accent">.</span>
-    </a>
+  <div class="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:px-5 sm:py-4">
+    <div class="flex items-center justify-between sm:contents">
+      <a href="/" class="wordmark shrink-0 font-serif text-lg italic text-ink sm:text-xl">
+        {site.name}<span class="text-accent">.</span>
+      </a>
+
+      <div class="sm:hidden">
+        <ThemeToggle clipped={false} />
+      </div>
+    </div>
 
     <nav class="flex items-center gap-3 font-mono text-[11px] tracking-wide text-ink-soft sm:gap-5 sm:text-xs [font-variant-ligatures:none]">
       {navLinks.map((link) => (
@@ -25,7 +31,7 @@ const navLinks = [
   </div>
 </header>
 
-<div data-print-hide class="pointer-events-none fixed inset-x-0 top-0 z-[60] flex justify-center">
+<div data-print-hide class="pointer-events-none fixed inset-x-0 top-0 z-[60] hidden justify-center sm:flex">
   <div class="pointer-events-auto">
     <ThemeToggle />
   </div>
