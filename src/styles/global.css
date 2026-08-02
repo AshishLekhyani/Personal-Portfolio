@@ -96,23 +96,20 @@ a {
 
 .fold-line {
   position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: center;
   padding: 14px 0;
   cursor: pointer;
   list-style: none;
+  /* Always-visible divider between the last visible row and the fold toggle,
+     independent of whether the fade below is covering anything. */
+  border-top: 0.5px dashed var(--color-rule-dot);
 }
 
 .fold-line::-webkit-details-marker {
   display: none;
-}
-
-.fold-line::before,
-.fold-line::after {
-  content: '';
-  flex: 1;
-  border-bottom: 0.5px dashed var(--color-rule-dot);
 }
 
 .fold-line:hover .fold-label {
@@ -147,12 +144,12 @@ a {
   position: absolute;
   inset-inline: 0;
   bottom: 100%;
-  height: 110px;
+  height: 70px;
   pointer-events: none;
   background: linear-gradient(
     to top,
-    var(--color-paper) 0 30%,
-    color-mix(in oklab, var(--color-paper) 75%, transparent) 58%,
+    var(--color-paper) 0 25%,
+    color-mix(in oklab, var(--color-paper) 70%, transparent) 60%,
     transparent 100%
   );
 }

@@ -2,26 +2,34 @@
 interface Props {
   role: string;
   org: string;
-  dates: string;
   description?: string;
   link?: { label: string; url: string };
+  number?: number;
 }
 
-const { role, org, dates, description, link } = Astro.props;
+const { role, org, description, link, number } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<div class="py-5" data-resume-entry>
-  <div class="flex items-baseline gap-3">
-    <h3 class="min-w-0 font-sans text-[15px] font-bold text-ink" data-entry-name>{org}</h3>
-    <span aria-hidden="true" class="-translate-y-1 flex-1 border-b border-dotted border-rule-dot"></span>
-    <span class="whitespace-nowrap font-mono text-[11px] tracking-[0.02em] text-ink-soft [font-variant-ligatures:none]" data-entry-meta>
-      {role} · {dates}
+<div class="grid grid-cols-[26px_minmax(0,1fr)] gap-x-3 py-5" data-resume-entry>
+  {number !== undefined && (
+    <span class="pt-[3px] font-mono text-[11px] tracking-[0.02em] text-rule-solid [font-variant-ligatures:none]">
+      {pad(number)}
     </span>
-  </div>
-  {description && <p class="mt-1.5 text-sm leading-relaxed text-ink-muted" data-entry-desc>{description}</p>}
-  {link && (
-    <a href={link.url} target="_blank" rel="noreferrer" class="link mt-1.5 inline-block font-mono text-[11px] text-ink-soft [font-variant-ligatures:none]">
-      {link.label} ↗
-    </a>
   )}
+  <div>
+    <div class="flex items-baseline gap-3">
+      <h3 class="min-w-0 font-sans text-[15px] font-bold text-ink" data-entry-name>{org}</h3>
+      <span aria-hidden="true" class="-translate-y-1 flex-1 border-b border-dotted border-rule-dot"></span>
+      <span class="whitespace-nowrap font-mono text-[11px] tracking-[0.02em] text-ink-soft [font-variant-ligatures:none]" data-entry-meta>
+        {role}
+      </span>
+    </div>
+    {description && <p class="mt-1.5 text-sm leading-relaxed text-ink-muted" data-entry-desc>{description}</p>}
+    {link && (
+      <a href={link.url} target="_blank" rel="noreferrer" class="link mt-1.5 inline-block font-mono text-[11px] text-ink-soft [font-variant-ligatures:none]">
+        {link.label} ↗
+      </a>
+    )}
+  </div>
 </div>

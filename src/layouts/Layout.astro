@@ -169,9 +169,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             const order = option.dataset.sort ?? 'relevance';
             const rows = [...leadContainer.children, ...rest.children];
             const sorted = rows.sort(compare[order] ?? compare.relevance);
+            const pad = (n: number) => String(n).padStart(2, '0');
 
             sorted.forEach((row, index) => {
               (index < leadCount ? leadContainer : rest).append(row);
+              const number = row.querySelector('[data-row-number]');
+              if (number) number.textContent = pad(index + 1);
             });
 
             sortControls.querySelectorAll<HTMLButtonElement>('[data-sort]').forEach((opt) => {

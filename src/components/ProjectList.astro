@@ -29,7 +29,7 @@ const below = numbered.slice(lead);
   <div class="mt-6 divide-y divide-rule-dot" data-rows>
     {above.map(({ project, rank }) => (
       <div data-rank={rank} data-key={new Date(project.sortDate).getTime()}>
-        <ProjectCard project={project} />
+        <ProjectCard project={project} number={rank} />
       </div>
     ))}
   </div>
@@ -48,7 +48,7 @@ const below = numbered.slice(lead);
       <div class="divide-y divide-rule-dot" data-rows data-rest>
         {below.map(({ project, rank }, index) => (
           <div style={`--i:${index}`} data-rank={rank} data-key={new Date(project.sortDate).getTime()}>
-            <ProjectCard project={project} />
+            <ProjectCard project={project} number={rank} />
           </div>
         ))}
       </div>

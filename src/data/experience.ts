@@ -11,7 +11,8 @@ export const experience: ExperienceItem[] = [
     role: 'Software Engineer',
     org: 'Freelance',
     dates: 'Jan 2026 — Present',
-    description: 'Full-stack development for clients, including Steno Dexter, a Pitman Shorthand exam-prep platform.',
+    description:
+      'Full-stack development for clients. Most recently built the platform for Steno Dexter, a Pitman Shorthand exam-prep service — course enrollment, daily dictations, weekly tests, and performance tracking for students preparing for government stenography exams (SSC, RSMSSB, High Courts, District Courts, Railways).',
     link: { label: 'stenodexter.com', url: 'https://stenodexter.com' },
   },
   {
@@ -19,7 +20,7 @@ export const experience: ExperienceItem[] = [
     org: 'KalyanX',
     dates: 'Oct 2025 — Present',
     description:
-      'Co-founded an early-stage Ayurvedic medicine venture, owning product and technology end to end.',
+      'Co-founded an early-stage Ayurvedic medicine venture based in Rajsamand, Rajasthan, owning product and technology — architecture, build decisions, and day-to-day execution.',
   },
 ];
 

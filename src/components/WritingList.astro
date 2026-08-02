@@ -8,8 +8,9 @@ interface Props {
 }
 
 const { posts, lead = 2 } = Astro.props;
-const above = posts.slice(0, lead);
-const below = posts.slice(lead);
+const numbered = posts.map((post, index) => ({ post, rank: index + 1 }));
+const above = numbered.slice(0, lead);
+const below = numbered.slice(lead);
 ---
 
 <section id="writing" data-print-hide data-fold-section data-section="writing" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
@@ -25,8 +26,10 @@ const below = posts.slice(lead);
   ) : (
     <>
       <div class="mt-6 divide-y divide-rule-dot" data-rows>
-        {above.map((post) => (
-          <PostCard slug={post.id} title={post.data.title} description={post.data.description} date={post.data.date} />
+        {above.map(({ post, rank }) => (
+          <div data-rank={rank}>
+            <PostCard slug={post.id} title={post.data.title} description={post.data.description} date={post.data.date} number={rank} />
+          </div>
         ))}
       </div>
 
@@ -42,9 +45,9 @@ const below = posts.slice(lead);
           </summary>
 
           <div class="divide-y divide-rule-dot" data-rows data-rest>
-            {below.map((post, index) => (
-              <div style={`--i:${index}`}>
-                <PostCard slug={post.id} title={post.data.title} description={post.data.description} date={post.data.date} />
+            {below.map(({ post, rank }, index) => (
+              <div style={`--i:${index}`} data-rank={rank}>
+                <PostCard slug={post.id} title={post.data.title} description={post.data.description} date={post.data.date} number={rank} />
               </div>
             ))}
           </div>
