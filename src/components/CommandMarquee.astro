@@ -49,7 +49,10 @@ const repeated = Array.from({ length: 3 }, () => lines).flat();
 ---
 
 <div aria-hidden="true" data-print-hide class="pointer-events-none fixed inset-y-0 left-0 -z-10 hidden w-[280px] overflow-hidden xl:block">
-  <div class="track flex flex-col whitespace-nowrap font-mono text-[13px] leading-[2.4] text-ink-soft/[0.2]">
+  <div
+    class="track flex flex-col whitespace-nowrap font-mono text-[13px] leading-[2.4] text-ink-soft/[0.2]"
+    style="transform: translateY(100vh)"
+  >
     {[...repeated, ...repeated].map((line) => <span class="px-6">{line}</span>)}
   </div>
 </div>
@@ -57,6 +60,10 @@ const repeated = Array.from({ length: 3 }, () => lines).flat();
 <style>
   .track {
     width: max-content;
+  }
+
+  .track.is-looping {
+    transition: none;
     animation: drift-up 400s linear infinite;
   }
 
@@ -70,8 +77,53 @@ const repeated = Array.from({ length: 3 }, () => lines).flat();
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .track {
+    .track.is-looping {
       animation: none;
     }
   }
 </style>
+
+<script>
+  (() => {
+    const track = document.querySelector<HTMLElement>('.track');
+    if (!track) return;
+
+    // The hidden starting position is an inline style (so it applies before
+    // any stylesheet race, even in dev mode) — a stylesheet media query can't
+    // override that, so reduced-motion has to be handled here in JS instead.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      track.style.transform = '';
+      track.classList.add('is-looping');
+      return;
+    }
+
+    // Matches the `drift-up 400s` duration in the stylesheet — the loop
+    // covers half the (duplicated) track height in that time, so that ratio
+    // is the ambient px/s speed the entrance rise should match.
+    const LOOP_SECONDS = 400;
+    const speedPxPerSec = track.scrollHeight / 2 / LOOP_SECONDS;
+    const entranceSeconds = window.innerHeight / speedPxPerSec;
+
+    track.style.transition = `transform ${entranceSeconds}s linear`;
+
+    // Two frames so the initial translateY(100vh) is actually painted before
+    // the transition target is set — otherwise the browser can coalesce both
+    // style writes into one and skip the transition entirely.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        track.style.transform = 'translateY(0)';
+      });
+    });
+
+    track.addEventListener(
+      'transitionend',
+      () => {
+        track.style.transition = '';
+        track.style.transform = '';
+        track.classList.add('is-looping');
+      },
+      { once: true }
+    );
+  })();
+</script>
