@@ -10,11 +10,12 @@ const { role, org, dates, description } = Astro.props;
 ---
 
 <div class="border-b border-rule-dot py-5 first:pt-0 last:border-b-0" data-resume-entry>
-  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-    <p class="font-sans text-sm font-bold text-ink" data-entry-name>
-      {role} <span class="font-normal text-ink-muted">— {org}</span>
-    </p>
-    <span class="font-mono text-xs text-ink-soft [font-variant-ligatures:none]" data-entry-meta>{dates}</span>
+  <div class="flex items-baseline gap-3">
+    <h3 class="min-w-0 font-sans text-[15px] font-bold text-ink" data-entry-name>{org}</h3>
+    <span aria-hidden="true" class="-translate-y-1 flex-1 border-b border-dotted border-rule-dot"></span>
+    <span class="whitespace-nowrap font-mono text-[11px] tracking-[0.02em] text-ink-soft [font-variant-ligatures:none]" data-entry-meta>
+      {role} · {dates}
+    </span>
   </div>
-  {description && <p class="mt-2 text-sm leading-relaxed text-ink-muted" data-entry-desc>{description}</p>}
+  {description && <p class="mt-1.5 text-sm leading-relaxed text-ink-muted" data-entry-desc>{description}</p>}
 </div>

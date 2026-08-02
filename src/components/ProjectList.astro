@@ -23,6 +23,7 @@ const below = projects.slice(lead);
           <span data-closed>{below.length} more, folded ↓</span>
           <span data-open>fold back ↑</span>
         </span>
+        <span aria-hidden="true" class="edges"></span>
       </summary>
 
       <div data-rest>
@@ -95,9 +96,47 @@ const below = projects.slice(lead);
   }
 
   .fold[open] .fade,
+  .fold[open] .edges,
   .fold:not([open]) [data-open],
   .fold[open] [data-closed] {
     display: none;
+  }
+
+  /* Once open, the fold line drops below the revealed rows instead of staying
+     pinned where you clicked it — so closing it again doesn't mean scrolling
+     back up to find it. */
+  .fold[open] > summary {
+    order: 2;
+  }
+
+  .fold:not([open]) > summary {
+    margin-bottom: 6px;
+  }
+
+  /* Two faint creases below the fold line, hinting at rows stacked behind it. */
+  .edges {
+    position: absolute;
+    inset-inline: 14%;
+    top: calc(100% - 10px);
+  }
+
+  .edges::before,
+  .edges::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    border-bottom: 0.5px dashed var(--color-rule-dot);
+  }
+
+  .edges::before {
+    top: 0;
+    opacity: 0.55;
+  }
+
+  .edges::after {
+    top: 4px;
+    inset-inline: 7%;
+    opacity: 0.3;
   }
 
   [data-rest] > div {

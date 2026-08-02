@@ -5,19 +5,17 @@ import { site } from '../data/site';
 const navLinks = [
   { label: 'Projects', href: '/#projects' },
   { label: 'Experience', href: '/#experience' },
-  { label: 'Writing', href: '/writing' },
+  { label: 'Writing', href: '/#writing' },
 ];
 ---
 
 <header data-print-hide class="sticky top-0 z-50 border-b border-rule-dot bg-paper/85 backdrop-blur">
-  <div class="relative mx-auto grid max-w-2xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-6 py-4">
-    <a href="/" class="justify-self-start font-serif text-lg italic text-ink">
+  <div class="flex items-center justify-between px-5 py-4">
+    <a href="/" class="font-serif text-lg italic text-ink">
       {site.name}
     </a>
 
-    <ThemeToggle />
-
-    <nav class="flex justify-self-end items-center gap-5 font-mono text-xs tracking-wide text-ink-soft [font-variant-ligatures:none]">
+    <nav class="flex items-center gap-5 font-mono text-xs tracking-wide text-ink-soft [font-variant-ligatures:none]">
       {navLinks.map((link) => (
         <a href={link.href} class="hidden transition-colors hover:text-ink sm:inline">
           {link.label}
@@ -26,3 +24,9 @@ const navLinks = [
     </nav>
   </div>
 </header>
+
+<div data-print-hide class="pointer-events-none fixed inset-x-0 top-0 z-[60] flex justify-center">
+  <div class="pointer-events-auto">
+    <ThemeToggle />
+  </div>
+</div>

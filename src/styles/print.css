@@ -1,4 +1,6 @@
-/* Turns the live page into a one-page A4 resume when printed / "Save as PDF". */
+/* Turns the live page into a one-page A4 resume when printed / "Save as PDF".
+   The print-only resume markup lives in ResumePrint.astro and owns its own
+   layout; this file just handles the page box and the show/hide toggles. */
 
 [data-print-only] {
   display: none;
@@ -10,26 +12,12 @@
     margin: 12mm;
   }
 
-  html,
-  html.dark {
-    --color-paper: #ffffff;
-    --color-ink: #101010;
-    --color-ink-muted: #26262a;
-    --color-ink-soft: #57575c;
-    --color-rule-dot: #bdbdc2;
-    --color-rule-solid: #97979d;
-    --color-accent: #b3410a;
-    --color-accent-50: rgba(179, 65, 10, 0.45);
-    color-scheme: light;
-  }
-
   html {
     scroll-behavior: auto;
   }
 
   body {
     background: #ffffff;
-    font-size: 11px;
   }
 
   [data-print-hide] {
@@ -38,40 +26,5 @@
 
   [data-print-only] {
     display: revert !important;
-  }
-
-  /* Every folded project/post shows on paper — there is no "click to expand". */
-  details.fold {
-    display: block !important;
-  }
-
-  details.fold summary {
-    display: none !important;
-  }
-
-  details.fold [data-rest] {
-    display: block !important;
-  }
-
-  details.fold [data-rest] > * {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .link {
-    border-bottom: none;
-    text-decoration: underline;
-    text-decoration-color: var(--color-accent-50);
-    text-underline-offset: 2px;
-  }
-
-  section {
-    break-inside: avoid-page;
-  }
-
-  article,
-  [data-resume-entry] {
-    break-inside: avoid;
   }
 }

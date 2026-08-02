@@ -6,8 +6,9 @@ import ProjectList from '../components/ProjectList.astro';
 import ExperienceRow from '../components/ExperienceRow.astro';
 import PostCard from '../components/PostCard.astro';
 import Footer from '../components/Footer.astro';
+import ResumePrint from '../components/ResumePrint.astro';
 import { projects } from '../data/projects';
-import { experience, volunteering, education } from '../data/experience';
+import { experience, volunteering } from '../data/experience';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('writing', ({ data }) => !data.draft))
@@ -17,17 +18,17 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft))
 
 <Layout>
   <Header />
-  <main data-resume class="max-w-none">
+  <main>
     <Hero />
 
-    <section id="projects" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
+    <section id="projects" data-print-hide class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
       <h2 class="font-serif text-[17px] text-accent italic">projects</h2>
       <div class="mt-6">
         <ProjectList projects={projects} lead={2} />
       </div>
     </section>
 
-    <section id="experience" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
+    <section id="experience" data-print-hide class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
       <h2 class="font-serif text-[17px] text-accent italic">experience</h2>
       <div class="mt-6">
         {experience.map((item) => <ExperienceRow {...item} />)}
@@ -36,13 +37,6 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft))
       <h3 class="mt-10 font-serif text-[15px] text-accent italic">volunteering</h3>
       <div class="mt-4">
         {volunteering.map((item) => <ExperienceRow {...item} />)}
-      </div>
-
-      <h3 class="mt-10 font-serif text-[15px] text-accent italic">education</h3>
-      <div class="mt-4">
-        {education.map((item) => (
-          <ExperienceRow role={item.degree} org={item.org} dates={item.dates} description={item.detail} />
-        ))}
       </div>
     </section>
 
@@ -61,6 +55,8 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft))
         )}
       </div>
     </section>
+
+    <ResumePrint />
   </main>
   <Footer />
 </Layout>

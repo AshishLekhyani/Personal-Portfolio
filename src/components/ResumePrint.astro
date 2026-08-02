@@ -1,0 +1,168 @@
+---
+// Print-only. Mirrors the layout of Ashish's actual resume PDF (centered header,
+// bold-caps section rules, bullet entries) rather than reusing the screen's
+// editorial-ledger styling — the two are different documents with different jobs.
+import { site, socials } from '../data/site';
+import { projects } from '../data/projects';
+import { experience, volunteering, education } from '../data/experience';
+import { skillCategories, coreCompetencies, certifications } from '../data/resume';
+
+const contactLine = [
+  site.email,
+  ...socials.filter((s) => s.label !== 'Email').map((s) => s.url.replace(/^https?:\/\//, '')),
+];
+
+const allExperience = [...experience, ...volunteering];
+---
+
+<div data-print-only class="resume-print">
+  <header>
+    <h1>{site.name}</h1>
+    <p class="contact">{contactLine.join('  |  ')}</p>
+  </header>
+
+  <section>
+    <h2>Technical Skills</h2>
+    {skillCategories.map((cat) => (
+      <p class="line"><strong>{cat.label}:</strong> {cat.items.join(', ')}</p>
+    ))}
+  </section>
+
+  <section>
+    <h2>Core Competencies</h2>
+    {coreCompetencies.map((cat) => (
+      <p class="line"><strong>{cat.label}:</strong> {cat.items.join(', ')}</p>
+    ))}
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    {projects.map((project) => (
+      <article class="entry">
+        <div class="entry-head">
+          <span><strong>{project.name}</strong> <em>| {project.tech.join(', ')}</em></span>
+          <span class="date">{project.date}</span>
+        </div>
+        <p class="bullet">{project.description}</p>
+      </article>
+    ))}
+  </section>
+
+  <section>
+    <h2>Leadership &amp; Experience</h2>
+    {allExperience.map((item) => (
+      <article class="entry">
+        <div class="entry-head">
+          <span><strong>{item.org}</strong> <em>— {item.role}</em></span>
+          <span class="date">{item.dates}</span>
+        </div>
+        <p class="bullet">{item.description}</p>
+      </article>
+    ))}
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    {education.map((item) => (
+      <div class="entry-head">
+        <span><strong>{item.org}</strong> <em>— {item.degree}{item.detail ? ` (${item.detail})` : ''}</em></span>
+        <span class="date">{item.dates}</span>
+      </div>
+    ))}
+  </section>
+
+  <section>
+    <h2>Certifications</h2>
+    {certifications.map((c) => <p class="line">{c}</p>)}
+  </section>
+</div>
+
+<style>
+  .resume-print {
+    display: none;
+  }
+
+  @media print {
+    .resume-print {
+      display: block;
+      color: #101010;
+      font-family: var(--font-sans);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3mm;
+    }
+
+    h1 {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 22pt;
+      letter-spacing: 0.02em;
+      margin: 0;
+    }
+
+    .contact {
+      margin: 1.5mm 0 0;
+      font-size: 8.5pt;
+      color: #444;
+    }
+
+    section {
+      margin-top: 4mm;
+      break-inside: avoid-page;
+    }
+
+    h2 {
+      font-size: 10.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #101010;
+      padding-bottom: 1mm;
+      margin: 0 0 2mm;
+    }
+
+    .line {
+      font-size: 8.7pt;
+      line-height: 1.5;
+      margin: 0 0 1mm;
+    }
+
+    .entry {
+      break-inside: avoid;
+      margin-bottom: 2mm;
+    }
+
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 4mm;
+      font-size: 9pt;
+    }
+
+    .entry-head em {
+      font-style: italic;
+      color: #333;
+    }
+
+    .date {
+      white-space: nowrap;
+      color: #333;
+      font-size: 8.3pt;
+    }
+
+    .bullet {
+      font-size: 8.5pt;
+      line-height: 1.45;
+      margin: 0.6mm 0 0;
+      padding-left: 3.2mm;
+      position: relative;
+    }
+
+    .bullet::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+    }
+  }
+</style>

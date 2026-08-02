@@ -18,7 +18,7 @@ export const experience: ExperienceItem[] = [
     org: 'KalyanX',
     dates: 'Oct 2025 — Present',
     description:
-      'Co-founded an Ayurvedic medicine venture, leading product and technology.',
+      'Co-founded an early-stage Ayurvedic medicine venture, owning product and technology end to end — from platform architecture to day-to-day build decisions — while co-founders lead the Ayurvedic formulation and business side.',
   },
 ];
 
@@ -42,8 +42,20 @@ export interface EducationItem {
 export const education: EducationItem[] = [
   {
     degree: 'B.Tech, Computer Science and Engineering',
-    org: 'JECRC Foundation (RTU), Jaipur',
+    org: 'JECRC Foundation (RTU), Jaipur, India',
     dates: '2021 — 2025',
     detail: 'CGPA: 7.98',
+  },
+  {
+    degree: 'Senior Secondary Education (XII), CBSE',
+    org: 'Vrindavan Public School, Ajmer, India',
+    dates: '2020 — 2021',
+    detail: 'Score: 93%',
+  },
+  {
+    degree: 'Secondary Education (X), CBSE',
+    org: 'St. Stephens School, Ajmer, India',
+    dates: '2018 — 2019',
+    detail: 'Score: 91.8%',
   },
 ];
