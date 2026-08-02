@@ -1,0 +1,20 @@
+---
+interface Props {
+  role: string;
+  org: string;
+  dates: string;
+  description?: string;
+}
+
+const { role, org, dates, description } = Astro.props;
+---
+
+<div class="border-b border-[var(--color-border)] py-5 first:pt-0 last:border-b-0">
+  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+    <p class="text-sm font-medium">
+      {role} <span class="font-normal text-[var(--color-text-muted)]">— {org}</span>
+    </p>
+    <span class="text-xs text-[var(--color-text-muted)]">{dates}</span>
+  </div>
+  {description && <p class="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">{description}</p>}
+</div>

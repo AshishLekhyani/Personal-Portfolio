@@ -1,0 +1,19 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  date: Date;
+}
+
+const { slug, title, description, date } = Astro.props;
+const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<a href={`/writing/${slug}`} class="group block border-b border-[var(--color-border)] py-5 first:pt-0 last:border-b-0">
+  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+    <h3 class="text-sm font-medium group-hover:text-[var(--color-accent)]">{title}</h3>
+    <span class="text-xs text-[var(--color-text-muted)]">{formatted}</span>
+  </div>
+  <p class="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">{description}</p>
+</a>

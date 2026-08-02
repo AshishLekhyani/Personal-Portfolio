@@ -1,0 +1,29 @@
+---
+import { site, socials } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer id="contact" class="mx-auto max-w-2xl px-6 py-16">
+  <div class="border-t border-[var(--color-border)] pt-10">
+    <h2 class="text-lg font-medium">Let's work together</h2>
+    <p class="mt-2 max-w-md text-sm leading-relaxed text-[var(--color-text-muted)]">
+      Freelancing and open to full-stack project work. The fastest way to reach me is email.
+    </p>
+    <a
+      href={`mailto:${site.email}`}
+      class="mt-4 inline-block text-sm font-medium text-[var(--color-accent)] hover:underline"
+    >
+      {site.email} ↗
+    </a>
+
+    <div class="mt-10 flex flex-wrap items-center justify-between gap-4 text-xs text-[var(--color-text-muted)]">
+      <p>© {year} {site.name}</p>
+      <div class="flex gap-4">
+        {socials.map((s) => (
+          <a href={s.url} class="hover:text-[var(--color-text)]">{s.label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>

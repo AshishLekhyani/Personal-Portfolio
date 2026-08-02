@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --color-bg: #ffffff;
+  --color-bg-subtle: #fafafa;
+  --color-text: #18181b;
+  --color-text-muted: #6b6b70;
+  --color-border: #e4e4e7;
+  --color-accent: #2563eb;
+}
+
+:root.dark {
+  --color-bg: #0a0a0b;
+  --color-bg-subtle: #131314;
+  --color-text: #f4f4f5;
+  --color-text-muted: #9a9aa0;
+  --color-border: #27272a;
+  --color-accent: #60a5fa;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    text-underline-offset: 3px;
+  }
+}

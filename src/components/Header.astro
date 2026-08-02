@@ -1,0 +1,27 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { site } from '../data/site';
+
+const navLinks = [
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Writing', href: '/writing' },
+  { label: 'Contact', href: '/#contact' },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg)]/80 backdrop-blur">
+  <div class="mx-auto flex max-w-2xl items-center justify-between px-6 py-4">
+    <a href="/" class="font-medium tracking-tight text-[var(--color-text)]">
+      {site.name}
+    </a>
+    <nav class="flex items-center gap-5 text-sm text-[var(--color-text-muted)]">
+      {navLinks.map((link) => (
+        <a href={link.href} class="hidden transition-colors hover:text-[var(--color-text)] sm:inline">
+          {link.label}
+        </a>
+      ))}
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>
