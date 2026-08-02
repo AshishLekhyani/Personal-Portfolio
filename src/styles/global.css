@@ -153,12 +153,14 @@ a {
   z-index: 1;
   inset-inline: 0;
   bottom: 100%;
-  height: 46px;
+  height: 130px;
   pointer-events: none;
   background: linear-gradient(
     to top,
-    var(--color-paper) 0 20%,
-    color-mix(in oklab, var(--color-paper) 55%, transparent) 45%,
+    var(--color-paper) 0 12%,
+    color-mix(in oklab, var(--color-paper) 82%, transparent) 32%,
+    color-mix(in oklab, var(--color-paper) 48%, transparent) 58%,
+    color-mix(in oklab, var(--color-paper) 18%, transparent) 80%,
     transparent 100%
   );
 }

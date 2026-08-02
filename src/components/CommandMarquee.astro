@@ -1,0 +1,77 @@
+---
+// Decorative only — a faint column of code drifting up the left margin,
+// inspired by the ticker on git-scope-pi.vercel.app but pushed to the
+// background: no borders, lowest z-index, barely-there opacity so it reads
+// as texture rather than content. Only shows up once there's enough margin
+// outside the content column to hold it without crowding anything.
+//
+// Repeated many times over (not just duplicated once) so the track is
+// always taller than any real viewport — otherwise the seamless-loop trick
+// (scroll one copy's height, snap back) shows a blank gap at the seam on
+// tall screens, since two copies alone don't reach full-viewport height.
+
+const lines = [
+  'const key = await deriveDataKey(orgId, masterKey)',
+  'type Secret = { id: string; envTier: EnvTier }',
+  'export async function reveal(id: string) {',
+  '  const cipher = await kms.decrypt(payload)',
+  '  await audit.log({ actor, secretId: id })',
+  '  return NextResponse.json({ value: cipher })',
+  '}',
+  'SELECT id, org_id FROM secrets WHERE env = $1',
+  'CREATE INDEX idx_secrets_org ON secrets(org_id)',
+  'interface Project { name: string; repo: string }',
+  'const rows = await prisma.project.findMany()',
+  'export default function Hero() {',
+  '  return <section className="relative">',
+  'const [theme, setTheme] = useState("system")',
+  'app.use(cors({ origin: allowedOrigins }))',
+  'CREATE TABLE audit_log (id UUID PRIMARY KEY)',
+  'export const config = { runtime: "edge" }',
+  'const cascade = providers.filter((p) => p.healthy)',
+  'model Secret {',
+  '  id        String   @id @default(cuid())',
+  '  orgId     String',
+  '  rotatedAt DateTime @updatedAt',
+  '}',
+  'async function withRetry<T>(fn: () => Promise<T>) {',
+  '  const headers = { Authorization: `Bearer ${token}` }',
+  'export type Theme = "system" | "light" | "dark"',
+  'git diff --stat origin/main',
+  'ALTER TABLE projects ADD COLUMN sort_date DATE',
+  'const scanner = new CveScanner({ severity: "high" })',
+  'useEffect(() => { root.classList.toggle("dark") }, [])',
+  'export function encrypt(payload: Buffer, key: Buffer) {',
+  '  return crypto.createCipheriv("aes-256-gcm", key, iv)',
+];
+
+const repeated = Array.from({ length: 3 }, () => lines).flat();
+---
+
+<div aria-hidden="true" data-print-hide class="pointer-events-none fixed inset-y-0 left-0 -z-10 hidden w-[280px] overflow-hidden xl:block">
+  <div class="track flex flex-col whitespace-nowrap font-mono text-[13px] leading-[2.4] text-ink-soft/[0.2]">
+    {[...repeated, ...repeated].map((line) => <span class="px-6">{line}</span>)}
+  </div>
+</div>
+
+<style>
+  .track {
+    width: max-content;
+    animation: drift-up 400s linear infinite;
+  }
+
+  @keyframes drift-up {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      animation: none;
+    }
+  }
+</style>
