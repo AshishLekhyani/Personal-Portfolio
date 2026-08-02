@@ -3,17 +3,26 @@
 // — deliberately not stars/followers, since those are at 0 right now and
 // would undercut rather than help. Instead: recency (are you actively
 // shipping?) and stack breadth (language mix across real repos).
+import { execSync } from 'node:child_process';
 import { mostRecentPush, languages } from '../data/github-activity';
 
 const days = Math.floor((Date.now() - new Date(mostRecentPush).getTime()) / 86_400_000);
 const lastShipped = days <= 0 ? 'today' : days === 1 ? '1 day ago' : days < 30 ? `${days} days ago` : `${Math.floor(days / 30)} mo ago`;
 
 const opacities = [1, 0.62, 0.38, 0.22];
+
+let commitHash = '';
+try {
+  commitHash = execSync('git rev-parse --short HEAD').toString().trim();
+} catch {
+  // No git history at build time (e.g. a shallow checkout without .git) — just omit it.
+}
 ---
 
-<div class="mt-8 max-w-xl">
-  <p class="font-mono text-[11px] tracking-[0.04em] text-ink-soft [font-variant-ligatures:none]">
-    Last shipped <span class="text-ink">{lastShipped}</span> · stack across repos
+<div class="mt-14 max-w-xl">
+  <p class="flex items-baseline justify-between font-mono text-[11px] tracking-[0.04em] text-ink-soft [font-variant-ligatures:none]">
+    <span>Last shipped <span class="text-ink">{lastShipped}</span> · stack across repos</span>
+    {commitHash && <span class="text-rule-solid">#{commitHash}</span>}
   </p>
   <div class="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-rule-dot/30">
     {languages.map((lang, i) => (
