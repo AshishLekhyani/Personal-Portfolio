@@ -1,5 +1,6 @@
 ---
 import { site, socials, skills } from '../data/site';
+import GithubActivity from './GithubActivity.astro';
 ---
 
 <section data-print-hide class="mx-auto max-w-2xl px-6 pb-14 pt-16 sm:pt-24">
@@ -14,6 +15,8 @@ import { site, socials, skills } from '../data/site';
   <p class="mt-5 max-w-xl font-serif text-lg leading-relaxed text-ink-muted italic">
     {site.tagline}
   </p>
+
+  <GithubActivity />
 
   <p class="mt-8 font-serif text-[17px] text-accent italic">Hi,</p>
   {site.intro.map((paragraph, index) => (
