@@ -30,7 +30,7 @@ export const volunteering: ExperienceItem[] = [
     org: 'SOCH Social Club, Jaipur',
     dates: '2024 — 2025',
     description:
-      'Co-led a core team organizing community outreach programs and campus donation drives, coordinating 80+ volunteers across major club events.',
+      'As Co-Lead, worked alongside the core team to plan and run multiple community outreach programs and campus donation drives, from initial planning through on-the-day execution. Coordinated schedules and task assignments for a volunteer base of 80+ students, keeping logistics running smoothly across several major club events over the year.',
   },
 ];
 

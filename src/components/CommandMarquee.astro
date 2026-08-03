@@ -62,23 +62,9 @@ const repeated = Array.from({ length: 3 }, () => lines).flat();
     width: max-content;
   }
 
-  .track.is-looping {
-    transition: none;
-    animation: drift-up 400s linear infinite;
-  }
-
-  @keyframes drift-up {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(-50%);
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .track.is-looping {
-      animation: none;
+    .track {
+      transform: none !important;
     }
   }
 </style>
@@ -90,40 +76,44 @@ const repeated = Array.from({ length: 3 }, () => lines).flat();
 
     // The hidden starting position is an inline style (so it applies before
     // any stylesheet race, even in dev mode) — a stylesheet media query can't
-    // override that, so reduced-motion has to be handled here in JS instead.
+    // override that, so reduced-motion is handled here in JS instead.
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) {
       track.style.transform = '';
-      track.classList.add('is-looping');
       return;
     }
 
-    // Matches the `drift-up 400s` duration in the stylesheet — the loop
-    // covers half the (duplicated) track height in that time, so that ratio
-    // is the ambient px/s speed the entrance rise should match.
+    // A single time-driven rAF loop instead of CSS transition → keyframe
+    // handoff. That handoff broke when window.print() interrupted it:
+    // print.css hides this element (data-print-hide) while the dialog is
+    // open, which abandons a running CSS transition without firing
+    // transitionend, so the loop never started and the track froze wherever
+    // it got hidden. Deriving position purely from elapsed wall-clock time
+    // sidesteps that entirely — however long the element was hidden for,
+    // the next frame that actually paints computes the mathematically
+    // correct position for "now," so it resumes exactly where it should be,
+    // never snapping and never getting stuck.
     const LOOP_SECONDS = 400;
-    const speedPxPerSec = track.scrollHeight / 2 / LOOP_SECONDS;
-    const entranceSeconds = window.innerHeight / speedPxPerSec;
+    const loopDistance = track.scrollHeight / 2;
+    const speedPxPerSec = loopDistance / LOOP_SECONDS;
+    const enterDistance = window.innerHeight;
+    const enterDurationMs = (enterDistance / speedPxPerSec) * 1000;
+    const loopDurationMs = LOOP_SECONDS * 1000;
+    const start = performance.now();
 
-    track.style.transition = `transform ${entranceSeconds}s linear`;
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      let y: number;
+      if (elapsed < enterDurationMs) {
+        y = enterDistance * (1 - elapsed / enterDurationMs);
+      } else {
+        const loopElapsed = (elapsed - enterDurationMs) % loopDurationMs;
+        y = -loopDistance * (loopElapsed / loopDurationMs);
+      }
+      track.style.transform = `translateY(${y}px)`;
+      requestAnimationFrame(tick);
+    };
 
-    // Two frames so the initial translateY(100vh) is actually painted before
-    // the transition target is set — otherwise the browser can coalesce both
-    // style writes into one and skip the transition entirely.
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        track.style.transform = 'translateY(0)';
-      });
-    });
-
-    track.addEventListener(
-      'transitionend',
-      () => {
-        track.style.transition = '';
-        track.style.transform = '';
-        track.classList.add('is-looping');
-      },
-      { once: true }
-    );
+    requestAnimationFrame(tick);
   })();
 </script>

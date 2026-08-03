@@ -1,79 +1,129 @@
 ---
-// Print-only. Mirrors the layout of Ashish's actual resume PDF (centered header,
-// bold-caps section rules, bullet entries) rather than reusing the screen's
-// editorial-ledger styling — the two are different documents with different jobs.
+// Print-only. Matches vaibhavacharya.com's actual technique: print entries
+// reuse the site's own serif-italic accent headings and the same
+// name-left/dotted-leader/meta-right row shape as the screen ledger rows,
+// and the header is a row (name+role+bio left, contact stacked right) —
+// matching his exact [data-resume-header] print layout.
 import { site, socials } from '../data/site';
 import { projects } from '../data/projects';
 import { experience, volunteering, education } from '../data/experience';
-import { skillCategories, coreCompetencies, certifications } from '../data/resume';
+import { skillCategories, coreCompetencies } from '../data/resume';
 
-const contactLine = [
-  site.email,
-  ...socials.filter((s) => s.label !== 'Email').map((s) => s.url.replace(/^https?:\/\//, '')),
+const contact = [
+  { label: site.email, href: `mailto:${site.email}` },
+  ...socials
+    .filter((s) => s.label !== 'Email')
+    .map((s) => ({
+      label: s.label === 'LinkedIn' ? s.url.replace(/^https?:\/\/(www\.)?linkedin\.com\//, '') : s.url.replace(/^https?:\/\//, ''),
+      href: s.url,
+    })),
 ];
 
-const allExperience = [...experience, ...volunteering];
+// Only the degree, not the two school entries — resume space is tighter now
+// that a volunteer section and a bio line have been added.
+const degreeOnly = education.filter((e) => e.degree.startsWith('B.Tech'));
 ---
 
 <div data-print-only class="resume-print">
-  <header>
-    <h1>{site.name}</h1>
-    <p class="contact">{contactLine.join('  |  ')}</p>
+  <header class="r-header">
+    <div>
+      <h1>{site.name}</h1>
+      <p class="r-role">{site.role}</p>
+      <p class="r-tagline">{site.tagline}</p>
+      <p class="r-bio">{site.intro[0]}</p>
+    </div>
+    <ul class="r-contact">
+      {contact.map((c) => (
+        <li><a href={c.href} class="r-link">{c.label}</a></li>
+      ))}
+    </ul>
   </header>
 
-  <section>
-    <h2>Technical Skills</h2>
+  <section class="r-section">
+    <h2 class="r-heading">experience</h2>
+    <div class="r-grid">
+      {experience.map((item) => (
+        <article class="r-entry">
+          <div class="r-entry-row">
+            <h3 class="r-entry-name">{item.org}</h3>
+            <span class="r-leader" aria-hidden="true"></span>
+            <span class="r-entry-meta">{item.role} · {item.dates}</span>
+          </div>
+          <p class="r-entry-desc">{item.description}</p>
+          {item.badge && (
+            <a href={item.badge.url} class="r-link r-inline-link">{item.badge.label} ↗</a>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="r-section">
+    <h2 class="r-heading">projects</h2>
+    <div class="r-grid">
+      {projects.map((project) => (
+        <article class="r-entry">
+          <div class="r-entry-row">
+            <h3 class="r-entry-name">
+              {project.liveUrl || project.codeUrl ? (
+                <a href={project.liveUrl ?? project.codeUrl} class="r-link">{project.name}</a>
+              ) : (
+                project.name
+              )}
+            </h3>
+            <span class="r-leader" aria-hidden="true"></span>
+            <span class="r-entry-meta">{project.tech.slice(0, 3).join(', ')} · {project.date}</span>
+          </div>
+          <p class="r-entry-desc">{project.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="r-section">
+    <h2 class="r-heading">technical skills</h2>
     {skillCategories.map((cat) => (
-      <p class="line"><strong>{cat.label}:</strong> {cat.items.join(', ')}</p>
+      <p class="r-line"><strong>{cat.label}:</strong> {cat.items.join(', ')}</p>
     ))}
   </section>
 
-  <section>
-    <h2>Core Competencies</h2>
+  <section class="r-section">
+    <h2 class="r-heading">core competencies</h2>
     {coreCompetencies.map((cat) => (
-      <p class="line"><strong>{cat.label}:</strong> {cat.items.join(', ')}</p>
+      <p class="r-line"><strong>{cat.label}:</strong> {cat.items.join(', ')}</p>
     ))}
   </section>
 
-  <section>
-    <h2>Projects</h2>
-    {projects.map((project) => (
-      <article class="entry">
-        <div class="entry-head">
-          <span><strong>{project.name}</strong> <em>| {project.tech.join(', ')}</em></span>
-          <span class="date">{project.date}</span>
-        </div>
-        <p class="bullet">{project.description}</p>
-      </article>
-    ))}
+  <section class="r-section">
+    <h2 class="r-heading">education</h2>
+    <div class="r-grid">
+      {degreeOnly.map((item) => (
+        <article class="r-entry">
+          <div class="r-entry-row">
+            <h3 class="r-entry-name">{item.org}</h3>
+            <span class="r-leader" aria-hidden="true"></span>
+            <span class="r-entry-meta">{item.dates}</span>
+          </div>
+          <p class="r-entry-desc">{item.degree}</p>
+        </article>
+      ))}
+    </div>
   </section>
 
-  <section>
-    <h2>Leadership &amp; Experience</h2>
-    {allExperience.map((item) => (
-      <article class="entry">
-        <div class="entry-head">
-          <span><strong>{item.org}</strong> <em>— {item.role}</em></span>
-          <span class="date">{item.dates}</span>
-        </div>
-        <p class="bullet">{item.description}</p>
-      </article>
-    ))}
-  </section>
-
-  <section>
-    <h2>Education</h2>
-    {education.map((item) => (
-      <div class="entry-head">
-        <span><strong>{item.org}</strong> <em>— {item.degree}{item.detail ? ` (${item.detail})` : ''}</em></span>
-        <span class="date">{item.dates}</span>
-      </div>
-    ))}
-  </section>
-
-  <section>
-    <h2>Certifications</h2>
-    {certifications.map((c) => <p class="line">{c}</p>)}
+  <section class="r-section">
+    <h2 class="r-heading">volunteer</h2>
+    <div class="r-grid">
+      {volunteering.map((item) => (
+        <article class="r-entry">
+          <div class="r-entry-row">
+            <h3 class="r-entry-name">{item.org}</h3>
+            <span class="r-leader" aria-hidden="true"></span>
+            <span class="r-entry-meta">{item.role} · {item.dates}</span>
+          </div>
+          <p class="r-entry-desc">{item.description}</p>
+        </article>
+      ))}
+    </div>
   </section>
 </div>
 
@@ -87,82 +137,154 @@ const allExperience = [...experience, ...volunteering];
       display: block;
       color: #101010;
       font-family: var(--font-sans);
+      padding: 7.5mm 11mm;
+      box-sizing: border-box;
     }
 
-    header {
-      text-align: center;
+    .r-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8mm;
       margin-bottom: 3mm;
     }
 
-    h1 {
-      font-family: var(--font-sans);
-      font-weight: 800;
-      font-size: 22pt;
-      letter-spacing: 0.02em;
-      margin: 0;
+    .r-header h1 {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 23pt;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      margin: 0 0 1.2mm;
     }
 
-    .contact {
-      margin: 1.5mm 0 0;
-      font-size: 8.5pt;
+    .r-role {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 10pt;
       color: #444;
-    }
-
-    section {
-      margin-top: 4mm;
-      break-inside: avoid-page;
-    }
-
-    h2 {
-      font-size: 10.5pt;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border-bottom: 1px solid #101010;
-      padding-bottom: 1mm;
-      margin: 0 0 2mm;
-    }
-
-    .line {
-      font-size: 8.7pt;
-      line-height: 1.5;
       margin: 0 0 1mm;
     }
 
-    .entry {
-      break-inside: avoid;
-      margin-bottom: 2mm;
-    }
-
-    .entry-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 4mm;
-      font-size: 9pt;
-    }
-
-    .entry-head em {
+    .r-tagline {
+      font-family: var(--font-serif);
       font-style: italic;
-      color: #333;
-    }
-
-    .date {
-      white-space: nowrap;
-      color: #333;
-      font-size: 8.3pt;
-    }
-
-    .bullet {
       font-size: 8.5pt;
-      line-height: 1.45;
-      margin: 0.6mm 0 0;
-      padding-left: 3.2mm;
-      position: relative;
+      color: #333;
+      margin: 0 0 0.8mm;
     }
 
-    .bullet::before {
-      content: '•';
-      position: absolute;
-      left: 0;
+    .r-bio {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 7.2pt;
+      line-height: 1.4;
+      color: #555;
+      margin: 0;
+      max-width: 68ch;
+    }
+
+    .r-contact {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+      gap: 0;
+      padding: 0;
+      margin: 0.6mm 0 0;
+      font-family: var(--font-mono);
+      font-size: 7.6pt;
+      letter-spacing: 0.02em;
+      color: #555;
+      white-space: nowrap;
+    }
+
+    .r-link {
+      color: #b3410a;
+      text-decoration: underline;
+      text-decoration-color: #b3410a;
+      text-underline-offset: 1.5px;
+      font-weight: inherit;
+    }
+
+    .r-inline-link {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 6.2pt;
+      margin-top: 0.5mm;
+    }
+
+    .r-section {
+      margin-top: 2.3mm;
+      break-inside: avoid-page;
+    }
+
+    .r-heading {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 11.5pt;
+      color: #b3410a;
+      margin: 0 0 1mm;
+      break-after: avoid;
+    }
+
+    .r-line {
+      font-size: 7.8pt;
+      line-height: 1.3;
+      margin: 0 0 0.5mm;
+    }
+
+    .r-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 6mm;
+      align-items: start;
+    }
+
+    .r-entry {
+      break-inside: avoid;
+      margin-bottom: 1.1mm;
+    }
+
+    .r-entry-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5mm;
+    }
+
+    .r-entry-name {
+      font-size: 8.6pt;
+      font-weight: 700;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .r-leader {
+      flex: 1;
+      border-bottom: 0.5px dotted #999;
+      transform: translateY(-1.5px);
+      min-width: 2mm;
+    }
+
+    .r-entry-meta {
+      font-family: var(--font-mono);
+      font-size: 6.9pt;
+      letter-spacing: 0.02em;
+      color: #666;
+      white-space: nowrap;
+    }
+
+    .r-entry-desc {
+      font-size: 7.2pt;
+      line-height: 1.28;
+      color: #333;
+      margin: 0.4mm 0 0;
     }
   }
 </style>
