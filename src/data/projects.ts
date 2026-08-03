@@ -5,13 +5,9 @@ export interface Project {
   liveUrl?: string;
   codeUrl?: string;
   date: string;
-  /** ISO date, used for the "latest" sort — not shown directly. */
   sortDate: string;
 }
 
-// Default (authored) order doubles as "relevance": most involved / most
-// impressive first. Update by hand as that changes — it's a judgment call,
-// not something derivable from the data.
 export const projects: Project[] = [
   {
     name: 'EnvSync',

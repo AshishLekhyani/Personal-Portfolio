@@ -1,7 +1,3 @@
-/* Turns the live page into a one-page A4 resume when printed / "Save as PDF".
-   The print-only resume markup lives in ResumePrint.astro and owns its own
-   layout; this file just handles the page box and the show/hide toggles. */
-
 [data-print-only] {
   display: none;
 }
@@ -12,9 +8,6 @@
     margin: 5mm;
   }
 
-  /* Paper is paper. Force the light palette even when the dark class is
-     set — without this, html.dark's `color-scheme: dark` (set unscoped in
-     global.css) keeps applying under print, since nothing here overrides it. */
   html,
   html.dark {
     --color-paper: oklch(0.99 0.001 260);

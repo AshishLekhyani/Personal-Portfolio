@@ -13,7 +13,6 @@ export const socials = [
   { label: 'GitHub', url: 'https://github.com/AshishLekhyani' },
   { label: 'LinkedIn', url: 'https://www.linkedin.com/in/ashishlekhyani/' },
   { label: 'Email', url: 'mailto:alekhyanisbi@gmail.com' },
-  // Twitter/X — add once you send the handle
 ];
 
 export const skills = [

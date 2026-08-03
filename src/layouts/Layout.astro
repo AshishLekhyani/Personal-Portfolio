@@ -59,10 +59,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       document.querySelector('[data-print-resume]')?.addEventListener('click', () => window.print());
     </script>
     <script>
-      // Wires every fold section on the page: smooth expand/collapse (via WAAPI
-      // height animation, since native <details> just snaps open/closed), the
-      // companion "show all" button in the heading, and relevance/latest sort
-      // where a section opts in with [data-sort-controls].
       document.querySelectorAll('[data-fold-section]').forEach((section) => {
         if ((section as HTMLElement).dataset.foldReady) return;
         (section as HTMLElement).dataset.foldReady = '1';

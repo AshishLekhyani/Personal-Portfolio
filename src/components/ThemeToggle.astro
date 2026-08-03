@@ -1,8 +1,4 @@
 ---
-// Three-state orb (system → light/dark → the other). On desktop it sits half
-// off the top edge of the viewport, attached to the screen. On mobile that
-// trick doesn't read well in a normal header, so `clipped=false` renders it
-// as an ordinary, fully-visible button instead.
 interface Props {
   clipped?: boolean;
 }
@@ -69,8 +65,6 @@ const { clipped = true } = Astro.props;
     transition: transform 420ms cubic-bezier(0.34, 1.32, 0.64, 1);
   }
 
-  /* Clipped variant only: sits low in the circle rather than dead-centre, so
-     once the top half is cut by the viewport edge, the glyph stays whole. */
   .orb.is-clipped .wheel {
     top: 65%;
   }

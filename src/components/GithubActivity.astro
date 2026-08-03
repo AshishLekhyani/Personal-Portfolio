@@ -1,8 +1,4 @@
 ---
-// Real data (see src/data/github-activity.ts for how it's gathered/refreshed)
-// — deliberately not stars/followers, since those are at 0 right now and
-// would undercut rather than help. Instead: recency (are you actively
-// shipping?) and stack breadth (language mix across real repos).
 import { execSync } from 'node:child_process';
 import { mostRecentPush, languages } from '../data/github-activity';
 
@@ -14,9 +10,7 @@ const opacities = [1, 0.62, 0.38, 0.22];
 let commitHash = '';
 try {
   commitHash = execSync('git rev-parse --short HEAD').toString().trim();
-} catch {
-  // No git history at build time (e.g. a shallow checkout without .git) — just omit it.
-}
+} catch {}
 ---
 
 <div class="mt-14 max-w-xl">

@@ -1,13 +1,4 @@
 ---
-// A gallery of project screenshots (and, eventually, clips) that hangs in
-// the right margin next to a project row like a pile of prints: the title
-// shot on top, the rest showing only their edges. Pointing at the pile
-// spreads it, clicking opens the full frame in FigureViewer.
-//
-// Below xl there is no margin to use, so the pile lies down into a strip
-// that wraps under the row — same threshold CommandMarquee uses for the
-// left margin, so both sides of the page populate together.
-
 import { shotsFor } from '../data/shots';
 
 interface Props {
@@ -45,8 +36,6 @@ const shots = shotsFor(projectName);
 )}
 
 <style>
-  /* No margin to hang in below xl, so the pile lies down and wraps under the
-     row rather than pushing the column wider than the screen. */
   .figures {
     --sheet: 60px;
     --step: 5px;
@@ -90,8 +79,6 @@ const shots = shotsFor(projectName);
     opacity: 1;
   }
 
-  /* A clip reads as a still until it is opened, so it says so with a mark in
-     the corner rather than by moving in the pile. */
   .clip::after {
     content: '';
     position: absolute;
@@ -103,16 +90,7 @@ const shots = shotsFor(projectName);
     filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.55));
   }
 
-  /* The margin only exists once the viewport can hold it. */
   @media (min-width: 1280px) {
-    /* The hit area is the row, not the pile: piles are taller than their row
-       and would otherwise steal the hover from the one below. Sheets only
-       take pointer events once the pile is spread.
-
-       Width reaches all the way to the viewport edge (measured in JS, see
-       the script below) rather than shrink-wrapping its sheets — that way
-       overflow:hidden and the fade mask below always land at the actual
-       edge of the page, however many sheets are in a given pile. */
     .figures {
       --sheet: 92px;
       position: absolute;
@@ -133,8 +111,6 @@ const shots = shotsFor(projectName);
     .fig {
       width: 92px;
       pointer-events: none;
-      /* Earlier sheets sit on top, so the pile reads from the title shot
-         outward. */
       z-index: calc(30 - var(--i));
     }
 
@@ -142,9 +118,6 @@ const shots = shotsFor(projectName);
       margin-left: calc(var(--step) - var(--sheet));
     }
 
-    /* Each pile spreads sideways within its own row's height, so unlike the
-       old vertical stack there's no reach into the row above or below —
-       nothing for a spread pile to collide with, so siblings stay put. */
     .figures:hover,
     .figures:has(:focus-visible) {
       z-index: 30;
@@ -177,14 +150,6 @@ const shots = shotsFor(projectName);
 </style>
 
 <script>
-  // Piles now spread sideways instead of stacking downward, which means a
-  // full row of sheets can easily run past the actual right edge of the
-  // page. The fade mask in the CSS above always sits at the last 64px of
-  // this element's own box — so if that box's width is set to reach exactly
-  // to the viewport edge, the fade naturally lands right at the page edge,
-  // whatever the viewport width. Every pile shares the same horizontal
-  // position (they all hang off the same content column), so measuring one
-  // is enough for all of them.
   (() => {
     const sample = document.querySelector<HTMLElement>('.figures');
     if (!sample) return;

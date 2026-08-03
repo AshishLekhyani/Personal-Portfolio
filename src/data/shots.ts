@@ -1,15 +1,9 @@
-// Project galleries that hang in the right margin next to each project row.
-// Keyed by a slugified project name so ProjectCard can look one up without
-// wiring it through the Project type. Screenshots live in public/projects.
-
 export interface Shot {
   src: string;
   thumb: string;
   width: number;
   height: number;
-  /** What is in the frame, where it is known. */
   caption?: string;
-  /** A clip rather than a still. Plays in the viewer, still opens on its own. */
   video?: boolean;
 }
 

@@ -1,9 +1,4 @@
 ---
-// Print-only. Matches vaibhavacharya.com's actual technique: print entries
-// reuse the site's own serif-italic accent headings and the same
-// name-left/dotted-leader/meta-right row shape as the screen ledger rows,
-// and the header is a row (name+role+bio left, contact stacked right) —
-// matching his exact [data-resume-header] print layout.
 import { site, socials } from '../data/site';
 import { projects } from '../data/projects';
 import { experience, volunteering, education } from '../data/experience';
@@ -19,8 +14,6 @@ const contact = [
     })),
 ];
 
-// Only the degree, not the two school entries — resume space is tighter now
-// that a volunteer section and a bio line have been added.
 const degreeOnly = education.filter((e) => e.degree.startsWith('B.Tech'));
 ---
 

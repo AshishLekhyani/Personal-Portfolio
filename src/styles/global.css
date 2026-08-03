@@ -12,8 +12,6 @@
   --font-serif: "Fraunces Variable", Georgia, serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
-  /* Cool, near-neutral paper/ink (not vaibhavacharya's warm sepia tone), with an
-     orange accent kept for colorblind accessibility. */
   --color-paper: oklch(0.99 0.001 260);
   --color-ink: oklch(0.19 0.004 260);
   --color-ink-muted: oklch(0.34 0.006 260);
@@ -85,10 +83,6 @@ a {
   }
 }
 
-/* ===================================================================== */
-/* Fold sections — shared by Projects and Writing (see fold-behavior.js)  */
-/* ===================================================================== */
-
 .fold {
   display: flex;
   flex-direction: column;
@@ -104,9 +98,6 @@ a {
   list-style: none;
 }
 
-/* Always-visible divider between the last visible row and the fold toggle.
-   A dedicated layer above .fade (explicit z-index) — the fade sits at this
-   exact boundary too, and without stacking it would just paint over the line. */
 .fold-line::before {
   content: '';
   position: absolute;
@@ -137,9 +128,6 @@ a {
   color: var(--color-accent);
 }
 
-/* Once open, the fold line drops below the revealed rows instead of staying
-   pinned where you clicked it — closing it again doesn't mean scrolling back
-   up to find it. */
 .fold[open] > summary {
   order: 2;
 }
@@ -165,7 +153,6 @@ a {
   );
 }
 
-/* Two faint creases below the fold line, hinting at rows stacked behind it. */
 .edges {
   position: absolute;
   inset-inline: 14%;

@@ -1,15 +1,4 @@
 ---
-// Decorative only — a faint column of code drifting up the left margin,
-// inspired by the ticker on git-scope-pi.vercel.app but pushed to the
-// background: no borders, lowest z-index, barely-there opacity so it reads
-// as texture rather than content. Only shows up once there's enough margin
-// outside the content column to hold it without crowding anything.
-//
-// Repeated many times over (not just duplicated once) so the track is
-// always taller than any real viewport — otherwise the seamless-loop trick
-// (scroll one copy's height, snap back) shows a blank gap at the seam on
-// tall screens, since two copies alone don't reach full-viewport height.
-
 const lines = [
   'const key = await deriveDataKey(orgId, masterKey)',
   'type Secret = { id: string; envTier: EnvTier }',
@@ -74,25 +63,12 @@ const repeated = Array.from({ length: 3 }, () => lines).flat();
     const track = document.querySelector<HTMLElement>('.track');
     if (!track) return;
 
-    // The hidden starting position is an inline style (so it applies before
-    // any stylesheet race, even in dev mode) — a stylesheet media query can't
-    // override that, so reduced-motion is handled here in JS instead.
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) {
       track.style.transform = '';
       return;
     }
 
-    // A single time-driven rAF loop instead of CSS transition → keyframe
-    // handoff. That handoff broke when window.print() interrupted it:
-    // print.css hides this element (data-print-hide) while the dialog is
-    // open, which abandons a running CSS transition without firing
-    // transitionend, so the loop never started and the track froze wherever
-    // it got hidden. Deriving position purely from elapsed wall-clock time
-    // sidesteps that entirely — however long the element was hidden for,
-    // the next frame that actually paints computes the mathematically
-    // correct position for "now," so it resumes exactly where it should be,
-    // never snapping and never getting stuck.
     const LOOP_SECONDS = 400;
     const loopDistance = track.scrollHeight / 2;
     const speedPxPerSec = loopDistance / LOOP_SECONDS;
