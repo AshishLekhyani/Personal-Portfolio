@@ -1,0 +1,215 @@
+---
+// On-page viewer for the project galleries. Every thumb links straight to
+// its full frame, which is what happens with JS off; with JS the click
+// opens it here instead, with the rest of that pile on the arrow keys.
+// Included once, in index.astro, alongside every Figures pile.
+---
+
+<div data-print-hide class="viewer" data-fig-viewer hidden role="dialog" aria-modal="true" aria-label="Project gallery">
+  <div class="stage" data-fig-stage>
+    <img class="plate" data-fig-image src="" alt="" />
+    <video class="plate" data-fig-video hidden muted loop playsinline autoplay></video>
+  </div>
+
+  <div class="bar font-mono text-[11px] tracking-[0.04em] [font-variant-ligatures:none]">
+    <span class="count" data-fig-counter></span>
+    <p class="caption" data-fig-caption></p>
+    <span class="controls">
+      <button type="button" class="control" data-fig-prev>&larr; prev</button>
+      <button type="button" class="control" data-fig-next>next &rarr;</button>
+      <button type="button" class="control close" data-fig-close>close &times;</button>
+    </span>
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const viewer = document.querySelector('[data-fig-viewer]');
+    if (!viewer) return;
+
+    const image = viewer.querySelector('[data-fig-image]');
+    const video = viewer.querySelector('[data-fig-video]');
+    const caption = viewer.querySelector('[data-fig-caption]');
+    const counter = viewer.querySelector('[data-fig-counter]');
+    const closer = viewer.querySelector('[data-fig-close]');
+    const prev = viewer.querySelector('[data-fig-prev]');
+    const next = viewer.querySelector('[data-fig-next]');
+    const main = document.querySelector('main');
+
+    let frames = [];
+    let index = 0;
+    let opener = null;
+    let openedByKey = false;
+
+    const pad = (value) => String(value).padStart(2, '0');
+
+    function show(to) {
+      index = (to + frames.length) % frames.length;
+      const frame = frames[index];
+      const text = frame.dataset.caption || '';
+      const clip = frame.dataset.video !== undefined;
+
+      image.hidden = clip;
+      video.hidden = !clip;
+
+      if (clip) {
+        video.src = frame.href;
+        video.play?.().catch(() => {});
+      } else {
+        video.pause();
+        video.removeAttribute('src');
+        image.src = frame.href;
+        image.alt = text;
+      }
+
+      caption.textContent = text;
+      counter.textContent = `${pad(index + 1)} / ${pad(frames.length)}`;
+    }
+
+    function open(anchor) {
+      const pile = anchor.closest('[data-fig-pile]');
+      frames = pile ? [...pile.querySelectorAll('[data-fig-frame]')] : [anchor];
+      opener = anchor;
+
+      const solo = frames.length < 2;
+      prev.hidden = solo;
+      next.hidden = solo;
+
+      show(frames.indexOf(anchor));
+      viewer.hidden = false;
+      document.documentElement.style.overflow = 'hidden';
+      if (main) main.inert = true;
+      closer.focus();
+    }
+
+    function close() {
+      video.pause();
+      viewer.hidden = true;
+      document.documentElement.style.overflow = '';
+      if (main) main.inert = false;
+
+      if (openedByKey && opener) opener.focus();
+      else document.activeElement?.blur();
+    }
+
+    document.addEventListener('click', (event) => {
+      const anchor = event.target.closest('[data-fig-frame]');
+      if (!anchor) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      event.preventDefault();
+      openedByKey = event.detail === 0;
+      open(anchor);
+    });
+
+    viewer.addEventListener('click', (event) => {
+      if (event.target.closest('[data-fig-prev]')) return show(index - 1);
+      if (event.target.closest('[data-fig-next]')) return show(index + 1);
+      if (event.target.closest('[data-fig-close]') || !event.target.closest('.plate')) close();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (viewer.hidden) return;
+      if (event.key === 'Escape') close();
+      if (event.key === 'ArrowLeft') show(index - 1);
+      if (event.key === 'ArrowRight') show(index + 1);
+    });
+  })();
+</script>
+
+<style>
+  .viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 16px;
+    padding: 26px;
+    background: color-mix(in oklab, var(--color-paper) 93%, transparent);
+    backdrop-filter: blur(7px);
+    animation: lift 180ms linear;
+  }
+
+  .viewer[hidden] {
+    display: none;
+  }
+
+  @keyframes lift {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .stage {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+  }
+
+  .plate {
+    display: block;
+    padding: 7px;
+    border: 0.5px solid var(--color-rule-solid);
+    background: var(--color-paper);
+    max-width: min(1080px, calc(100vw - 66px));
+    max-height: calc(100vh - 172px);
+    width: auto;
+    height: auto;
+  }
+
+  .bar {
+    display: flex;
+    align-items: baseline;
+    gap: 10px 18px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1094px;
+    margin: 0 auto;
+    color: var(--color-ink-soft);
+  }
+
+  .count {
+    color: var(--color-rule-dot);
+  }
+
+  .caption {
+    flex: 1 1 12ch;
+    min-width: 0;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .controls {
+    display: flex;
+    gap: 16px;
+    white-space: nowrap;
+  }
+
+  .control {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-bottom: 0.5px dotted var(--color-rule-dot);
+    padding: 0 0 1px;
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: color 120ms linear;
+  }
+
+  .control:hover {
+    color: var(--color-ink);
+  }
+
+  .close {
+    color: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .viewer {
+      animation: none;
+    }
+  }
+</style>

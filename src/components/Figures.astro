@@ -1,0 +1,179 @@
+---
+// A gallery of project screenshots (and, eventually, clips) that hangs in
+// the right margin next to a project row like a pile of prints: the title
+// shot on top, the rest showing only their edges. Pointing at the pile
+// spreads it, clicking opens the full frame in FigureViewer.
+//
+// Below xl there is no margin to use, so the pile lies down into a strip
+// that wraps under the row — same threshold CommandMarquee uses for the
+// left margin, so both sides of the page populate together.
+
+import { shotsFor } from '../data/shots';
+
+interface Props {
+  projectName: string;
+}
+
+const { projectName } = Astro.props;
+const shots = shotsFor(projectName);
+---
+
+{shots.length > 0 && (
+  <span class="figures" data-fig-pile>
+    {shots.map((shot, index) => (
+      <a
+        class:list={['fig', { clip: shot.video }]}
+        href={shot.src}
+        target="_blank"
+        rel="noreferrer"
+        data-fig-frame
+        data-video={shot.video ? '' : undefined}
+        data-caption={shot.caption ?? `${projectName}, frame ${index + 1}`}
+        style={`--i:${index}`}
+      >
+        <img
+          src={shot.thumb}
+          width={shot.width}
+          height={shot.height}
+          alt={shot.caption ?? `${projectName}, frame ${index + 1}`}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    ))}
+  </span>
+)}
+
+<style>
+  /* No margin to hang in below xl, so the pile lies down and wraps under the
+     row rather than pushing the column wider than the screen. */
+  .figures {
+    --sheet: 60px;
+    --step: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 11px 0 2px;
+  }
+
+  .fig {
+    position: relative;
+    flex: 0 0 auto;
+    display: block;
+    width: 78px;
+    padding: 3px;
+    border: 0.5px solid var(--color-rule-dot);
+    background: var(--color-paper);
+    transition:
+      transform 220ms cubic-bezier(0.2, 0.7, 0.3, 1),
+      margin-top 220ms cubic-bezier(0.2, 0.7, 0.3, 1),
+      border-color 160ms linear;
+  }
+
+  .fig img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0.85;
+    transition: opacity 220ms linear;
+  }
+
+  .fig:hover,
+  .fig:focus-visible {
+    border-color: var(--color-accent-50);
+  }
+
+  .fig:hover img,
+  .fig:focus-visible img {
+    opacity: 1;
+  }
+
+  /* A clip reads as a still until it is opened, so it says so with a mark in
+     the corner rather than by moving in the pile. */
+  .clip::after {
+    content: '';
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    border-style: solid;
+    border-width: 4px 0 4px 7px;
+    border-color: transparent transparent transparent var(--color-paper);
+    filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.55));
+  }
+
+  /* The margin only exists once the viewport can hold it. */
+  @media (min-width: 1280px) {
+    /* The hit area is the row, not the pile: piles are taller than their row
+       and would otherwise steal the hover from the one below. Sheets only
+       take pointer events once the pile is spread. */
+    .figures {
+      position: absolute;
+      top: 26px;
+      bottom: 8px;
+      left: calc(100% + 24px);
+      width: 92px;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 0;
+      margin: 0;
+    }
+
+    .fig {
+      width: 92px;
+      pointer-events: none;
+      /* Earlier sheets sit on top, so the pile reads from the title shot
+         down. */
+      z-index: calc(30 - var(--i));
+    }
+
+    .fig + .fig {
+      margin-top: calc(var(--step) - var(--sheet));
+    }
+
+    /* Spread, the pile sits on its own paper so it reads as one object
+       instead of running into the piles above and below. */
+    .figures:hover,
+    .figures:has(:focus-visible) {
+      z-index: 30;
+      background: var(--color-paper);
+      outline: 7px solid var(--color-paper);
+    }
+
+    .figures {
+      transition: opacity 200ms linear;
+    }
+
+    /* One pile open at a time. */
+    :global(body:has(.figures:hover)) .figures:not(:hover),
+    :global(body:has(.figures :focus-visible)) .figures:not(:has(:focus-visible)) {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .figures:hover .fig,
+    .figures:has(:focus-visible) .fig {
+      pointer-events: auto;
+    }
+
+    .figures:hover .fig + .fig,
+    .figures:has(:focus-visible) .fig + .fig {
+      margin-top: 7px;
+    }
+
+    .fig:hover,
+    .fig:focus-visible {
+      transform: scale(1.14);
+      transform-origin: left center;
+      z-index: 40;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fig,
+    .fig img {
+      transition: none;
+    }
+  }
+</style>

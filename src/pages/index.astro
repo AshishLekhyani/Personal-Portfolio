@@ -7,6 +7,7 @@ import WritingList from '../components/WritingList.astro';
 import ExperienceRow from '../components/ExperienceRow.astro';
 import Footer from '../components/Footer.astro';
 import ResumePrint from '../components/ResumePrint.astro';
+import FigureViewer from '../components/FigureViewer.astro';
 import { projects } from '../data/projects';
 import { experience } from '../data/experience';
 import { getCollection } from 'astro:content';
@@ -34,5 +35,6 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
 
     <ResumePrint />
   </main>
+  <FigureViewer />
   <Footer />
 </Layout>

@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/projects';
+import Figures from './Figures.astro';
 
 interface Props {
   project: Project;
@@ -11,7 +12,7 @@ const href = project.liveUrl ?? project.codeUrl;
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<article class="grid grid-cols-[26px_minmax(0,1fr)] gap-x-3 py-6">
+<article class="relative grid grid-cols-[26px_minmax(0,1fr)] gap-x-3 py-6">
   {number !== undefined && (
     <span data-row-number class="pt-[3px] font-mono text-[11px] tracking-[0.02em] text-rule-solid [font-variant-ligatures:none]">
       {pad(number)}
@@ -40,5 +41,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
         </li>
       ))}
     </ul>
+
+    <Figures projectName={project.name} />
   </div>
 </article>
