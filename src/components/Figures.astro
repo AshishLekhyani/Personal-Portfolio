@@ -107,49 +107,47 @@ const shots = shotsFor(projectName);
   @media (min-width: 1280px) {
     /* The hit area is the row, not the pile: piles are taller than their row
        and would otherwise steal the hover from the one below. Sheets only
-       take pointer events once the pile is spread. */
+       take pointer events once the pile is spread.
+
+       Width reaches all the way to the viewport edge (measured in JS, see
+       the script below) rather than shrink-wrapping its sheets — that way
+       overflow:hidden and the fade mask below always land at the actual
+       edge of the page, however many sheets are in a given pile. */
     .figures {
+      --sheet: 92px;
       position: absolute;
       top: 26px;
       bottom: 8px;
       left: calc(100% + 24px);
-      width: 92px;
-      flex-direction: column;
+      width: var(--fig-avail-w, 300px);
+      overflow: hidden;
+      flex-direction: row;
       flex-wrap: nowrap;
+      align-items: flex-start;
       gap: 0;
       margin: 0;
+      mask-image: linear-gradient(to right, black calc(100% - 64px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 64px), transparent 100%);
     }
 
     .fig {
       width: 92px;
       pointer-events: none;
       /* Earlier sheets sit on top, so the pile reads from the title shot
-         down. */
+         outward. */
       z-index: calc(30 - var(--i));
     }
 
     .fig + .fig {
-      margin-top: calc(var(--step) - var(--sheet));
+      margin-left: calc(var(--step) - var(--sheet));
     }
 
-    /* Spread, the pile sits on its own paper so it reads as one object
-       instead of running into the piles above and below. */
+    /* Each pile spreads sideways within its own row's height, so unlike the
+       old vertical stack there's no reach into the row above or below —
+       nothing for a spread pile to collide with, so siblings stay put. */
     .figures:hover,
     .figures:has(:focus-visible) {
       z-index: 30;
-      background: var(--color-paper);
-      outline: 7px solid var(--color-paper);
-    }
-
-    .figures {
-      transition: opacity 200ms linear;
-    }
-
-    /* One pile open at a time. */
-    :global(body:has(.figures:hover)) .figures:not(:hover),
-    :global(body:has(.figures :focus-visible)) .figures:not(:has(:focus-visible)) {
-      opacity: 0;
-      pointer-events: none;
     }
 
     .figures:hover .fig,
@@ -159,13 +157,13 @@ const shots = shotsFor(projectName);
 
     .figures:hover .fig + .fig,
     .figures:has(:focus-visible) .fig + .fig {
-      margin-top: 7px;
+      margin-left: 7px;
     }
 
     .fig:hover,
     .fig:focus-visible {
       transform: scale(1.14);
-      transform-origin: left center;
+      transform-origin: top left;
       z-index: 40;
     }
   }
@@ -177,3 +175,33 @@ const shots = shotsFor(projectName);
     }
   }
 </style>
+
+<script>
+  // Piles now spread sideways instead of stacking downward, which means a
+  // full row of sheets can easily run past the actual right edge of the
+  // page. The fade mask in the CSS above always sits at the last 64px of
+  // this element's own box — so if that box's width is set to reach exactly
+  // to the viewport edge, the fade naturally lands right at the page edge,
+  // whatever the viewport width. Every pile shares the same horizontal
+  // position (they all hang off the same content column), so measuring one
+  // is enough for all of them.
+  (() => {
+    const sample = document.querySelector<HTMLElement>('.figures');
+    if (!sample) return;
+
+    const update = () => {
+      if (window.innerWidth < 1280) return;
+      const left = sample.getBoundingClientRect().left;
+      const available = Math.max(120, window.innerWidth - left - 16);
+      document.documentElement.style.setProperty('--fig-avail-w', `${available}px`);
+    };
+
+    update();
+
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(update, 100);
+    });
+  })();
+</script>
