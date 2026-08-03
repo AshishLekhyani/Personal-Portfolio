@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import { site } from '../data/site';
 
 export async function GET(context: APIContext) {
-  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  const posts = await getCollection('articles', ({ data }) => !data.draft);
   return rss({
     title: site.name,
     description: site.tagline,
@@ -15,7 +15,7 @@ export async function GET(context: APIContext) {
         title: post.data.title,
         description: post.data.description,
         pubDate: post.data.date,
-        link: `/writing/${post.id}/`,
+        link: `/articles/${post.id}/`,
       })),
   });
 }

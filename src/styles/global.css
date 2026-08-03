@@ -92,19 +92,17 @@ a {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 14px;
   padding: 14px 0;
   cursor: pointer;
   list-style: none;
 }
 
-.fold-line::before {
+.fold-line::before,
+.fold-line::after {
   content: '';
-  position: absolute;
-  z-index: 2;
-  inset-inline: 0;
-  top: 0;
-  border-top: 1px dashed var(--color-rule-solid);
+  flex: 1;
+  border-bottom: 0.5px dashed var(--color-rule-dot);
 }
 
 .fold-line::-webkit-details-marker {

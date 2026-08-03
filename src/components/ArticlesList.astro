@@ -3,7 +3,7 @@ import PostCard from './PostCard.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  posts: CollectionEntry<'writing'>[];
+  posts: CollectionEntry<'articles'>[];
   lead?: number;
 }
 
@@ -13,9 +13,9 @@ const above = numbered.slice(0, lead);
 const below = numbered.slice(lead);
 ---
 
-<section id="writing" data-print-hide data-fold-section data-section="writing" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
+<section id="articles" data-print-hide data-fold-section data-section="articles" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
   <div class="flex items-baseline justify-between gap-3">
-    <h2 class="font-serif text-[17px] text-accent italic">writing</h2>
+    <h2 class="font-serif text-[17px] text-accent italic">articles</h2>
     {posts.length > 0 && (
       <button type="button" data-fold-all hidden class="fold-all font-mono text-[11px] tracking-[0.04em] text-ink-soft whitespace-nowrap [font-variant-ligatures:none]">show all ↓</button>
     )}

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import ProjectList from '../components/ProjectList.astro';
-import WritingList from '../components/WritingList.astro';
+import ArticlesList from '../components/ArticlesList.astro';
 import ExperienceRow from '../components/ExperienceRow.astro';
 import Footer from '../components/Footer.astro';
 import ResumePrint from '../components/ResumePrint.astro';
@@ -12,7 +12,7 @@ import { projects } from '../data/projects';
 import { experience } from '../data/experience';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+const posts = (await getCollection('articles', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 ---
@@ -31,7 +31,7 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
       </div>
     </section>
 
-    <WritingList posts={posts} lead={2} />
+    <ArticlesList posts={posts} lead={2} />
 
     <ResumePrint />
   </main>
