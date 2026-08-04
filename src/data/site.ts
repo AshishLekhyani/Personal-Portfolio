@@ -3,8 +3,8 @@ export const site = {
   role: 'Software Engineer',
   tagline: 'Building products with intention, one thoughtful iteration at a time.',
   intro: [
-    "I enjoy building software that's intuitive, and built with purpose. I'm constantly exploring the web, finding ways to do it all faster, and figuring out how great products are designed from the first line of code to the final user experience.",
-    "When I'm not working, I'm usually tinkering with something — a new recipe, a broken gadget, a skill I have no business learning but can't resist trying anyway.",
+    "I enjoy building software that's intuitive and reliable. I'm constantly exploring the internet, finding better ways to build things, and figuring out how great products are built.",
+    "Outside of coding, you'll usually find me reading, learning more about personal finance, or exploring whatever has caught my curiosity next.",
   ],
   email: 'alekhyanisbi@gmail.com',
 };

@@ -1,7 +1,9 @@
-export const mostRecentPush = '2026-08-01T14:09:17Z';
+export const lastShipped = 'today';
 
 export const languages = [
   { name: 'TypeScript', pct: 45 },
-  { name: 'JavaScript', pct: 36 },
-  { name: 'HTML', pct: 19 },
+  { name: 'JavaScript', pct: 25 },
+  { name: 'Rust', pct: 15 },
+  { name: 'CSS', pct: 10 },
+  { name: 'HTML', pct: 5 },
 ];

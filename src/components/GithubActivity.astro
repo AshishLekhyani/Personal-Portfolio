@@ -1,9 +1,6 @@
 ---
 import { execSync } from 'node:child_process';
-import { mostRecentPush, languages } from '../data/github-activity';
-
-const days = Math.floor((Date.now() - new Date(mostRecentPush).getTime()) / 86_400_000);
-const lastShipped = days <= 0 ? 'today' : days === 1 ? '1 day ago' : days < 30 ? `${days} days ago` : `${Math.floor(days / 30)} mo ago`;
+import { lastShipped, languages } from '../data/github-activity';
 
 const opacities = [1, 0.62, 0.38, 0.22];
 
