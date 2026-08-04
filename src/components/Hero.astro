@@ -30,7 +30,7 @@ import GithubActivity from './GithubActivity.astro';
         <a
           href={s.url}
           target={s.url.startsWith('mailto:') ? undefined : '_blank'}
-          rel={s.url.startsWith('mailto:') ? undefined : 'noreferrer'}
+          rel={s.url.startsWith('mailto:') ? 'me' : 'me noreferrer'}
           class="link font-mono text-[11.5px] tracking-[0.02em] text-ink-soft [font-variant-ligatures:none]"
         >
           {s.label}

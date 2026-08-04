@@ -1,0 +1,21 @@
+{
+  "name": "Ashish Lekhyani — Software Engineer",
+  "short_name": "Ashish Lekhyani",
+  "description": "Ashish Lekhyani is a software engineer, freelancer, and full-stack developer building complete products — from database schema to the UI on top.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fdfdfc",
+  "theme_color": "#fdfdfc",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -16,7 +16,7 @@ try {
 <div class="mt-14 max-w-xl">
   <p class="flex items-baseline justify-between font-mono text-[11px] tracking-[0.04em] text-ink-soft [font-variant-ligatures:none]">
     <span>Last shipped <span class="text-ink">{lastShipped}</span> · stack across repos</span>
-    {commitHash && <span class="text-rule-solid">#{commitHash}</span>}
+    {commitHash && <span class="text-ink-soft">#{commitHash}</span>}
   </p>
   <div class="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-rule-dot/30">
     {languages.map((lang, i) => (
@@ -27,7 +27,7 @@ try {
     {languages.map((lang, i) => (
       <li class="flex items-center gap-1.5">
         <span class="size-2 rounded-full" style={`background-color: color-mix(in oklab, var(--color-accent) ${opacities[i] * 100}%, transparent)`} />
-        {lang.name} <span class="text-rule-solid">{lang.pct}%</span>
+        {lang.name} <span class="text-ink-soft">{lang.pct}%</span>
       </li>
     ))}
   </ul>
