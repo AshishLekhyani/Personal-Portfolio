@@ -1,13 +1,9 @@
 ---
-import { execSync } from 'node:child_process';
 import { lastShipped, languages } from '../data/github-activity';
 
 const opacities = [1, 0.62, 0.38, 0.22];
 
-let commitHash = '';
-try {
-  commitHash = execSync('git rev-parse --short HEAD').toString().trim();
-} catch {}
+const commitHash = '8ae5036';
 ---
 
 <div class="mt-14 max-w-xl">
