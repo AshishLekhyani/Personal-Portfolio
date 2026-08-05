@@ -12,7 +12,7 @@ export const experience: ExperienceItem[] = [
     org: 'Freelance',
     dates: 'Jan 2026 — Present',
     description:
-      'Full-stack development for clients. Most recently built the platform for Steno Dexter, a Pitman Shorthand exam-prep service — course enrollment, daily dictations, weekly tests, and performance tracking for students preparing for government stenography exams (SSC, RSMSSB, High Courts, District Courts, Railways).',
+      'Full-stack development for clients. Most recently built the platform for StenoDexter, a Pitman Shorthand exam-prep service — course enrollment, daily dictations, weekly tests, and performance tracking for students preparing for government stenography exams (SSC, RSMSSB, High Courts, District Courts, Railways).',
     badge: { label: 'StenoDexter', url: 'https://stenodexter.com' },
   },
   {

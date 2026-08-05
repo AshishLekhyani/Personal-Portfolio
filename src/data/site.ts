@@ -6,13 +6,13 @@ export const site = {
     "I enjoy building software that's intuitive and reliable. I'm constantly exploring the internet, finding better ways to build things, and figuring out how great products are built.",
     "Outside of coding, you'll usually find me reading, learning more about personal finance, or exploring whatever has caught my curiosity next.",
   ],
-  email: 'alekhyanisbi@gmail.com',
+  email: 'hello@ashishlekhyani.com',
 };
 
 export const socials = [
   { label: 'GitHub', url: 'https://github.com/AshishLekhyani' },
   { label: 'LinkedIn', url: 'https://www.linkedin.com/in/ashishlekhyani/' },
-  { label: 'Email', url: 'mailto:alekhyanisbi@gmail.com' },
+  { label: 'Email', url: 'mailto:hello@ashishlekhyani.com' },
 ];
 
 export const skills = [
