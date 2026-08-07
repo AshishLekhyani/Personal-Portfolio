@@ -1,11 +1,11 @@
 ---
 import '../styles/global.css';
 import '../styles/print.css';
-import CommandMarquee from '../components/CommandMarquee.astro';
 import { site, socials, skills } from '../data/site';
 import { education } from '../data/experience';
 import frauncesItalicURL from '@fontsource-variable/fraunces/files/fraunces-latin-wght-italic.woff2?url';
 import frauncesRegularURL from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
+import interRegularURL from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -14,8 +14,8 @@ interface Props {
 }
 
 const {
-  title = 'Ashish Lekhyani — Software Engineer & Freelancer',
-  description = 'Ashish Lekhyani is a software engineer, freelancer, and full-stack developer building complete products — from database schema to the UI on top.',
+  title = 'Ashish Lekhyani - Software Engineer',
+  description = 'Ashish Lekhyani is a software engineer and full-stack developer building complete products, from database schema to the UI on top.',
   noindex = false,
 } = Astro.props;
 
@@ -33,7 +33,7 @@ const jsonLd = {
       name: site.name,
       url: siteURL,
       image: new URL('/og-image.png', Astro.site).toString(),
-      jobTitle: [site.role, 'Freelancer', 'Full-Stack Developer'],
+      jobTitle: [site.role, 'Full-Stack Developer'],
       description: site.intro[0],
       email: site.email,
       sameAs: profileURLs,
@@ -65,7 +65,9 @@ const jsonLd = {
     <meta name="theme-color" content="#fdfdfc" />
     <link rel="preload" href={frauncesItalicURL} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={frauncesRegularURL} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interRegularURL} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -107,136 +109,9 @@ const jsonLd = {
     </script>
   </head>
   <body>
-    <CommandMarquee />
     <slot />
     <script is:inline>
       document.querySelector('[data-print-resume]')?.addEventListener('click', () => window.print());
-    </script>
-    <script>
-      document.querySelectorAll('[data-fold-section]').forEach((section) => {
-        if ((section as HTMLElement).dataset.foldReady) return;
-        (section as HTMLElement).dataset.foldReady = '1';
-
-        const details = section.querySelector<HTMLDetailsElement>('details.fold');
-        const foldAllBtn = section.querySelector<HTMLButtonElement>('[data-fold-all]');
-        const summary = details?.querySelector<HTMLElement>(':scope > summary');
-        const rest = details?.querySelector<HTMLElement>('[data-rest]');
-
-        let animation: Animation | null = null;
-        let isClosing = false;
-        let isExpanding = false;
-
-        const syncLabel = () => {
-          if (!details || !foldAllBtn) return;
-          foldAllBtn.textContent = details.open ? 'fold back ↑' : 'show all ↓';
-          foldAllBtn.setAttribute('aria-expanded', String(details.open));
-        };
-
-        const finish = (open: boolean) => {
-          if (!details) return;
-          details.open = open;
-          animation = null;
-          isClosing = false;
-          isExpanding = false;
-          details.style.height = '';
-          details.style.overflow = '';
-          syncLabel();
-        };
-
-        const expand = () => {
-          if (!details || !summary || !rest) return;
-          isExpanding = true;
-          details.style.overflow = 'hidden';
-          const startHeight = details.offsetHeight;
-          details.style.height = `${startHeight}px`;
-          details.open = true;
-          requestAnimationFrame(() => {
-            const endHeight = summary.offsetHeight + rest.offsetHeight;
-            animation?.cancel();
-            animation = details.animate(
-              { height: [`${startHeight}px`, `${endHeight}px`] },
-              { duration: 320, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' }
-            );
-            animation.onfinish = () => finish(true);
-            animation.oncancel = () => {
-              isExpanding = false;
-            };
-          });
-        };
-
-        const collapse = () => {
-          if (!details || !summary) return;
-          isClosing = true;
-          details.style.overflow = 'hidden';
-          const startHeight = details.offsetHeight;
-          const endHeight = summary.offsetHeight;
-          animation?.cancel();
-          animation = details.animate(
-            { height: [`${startHeight}px`, `${endHeight}px`] },
-            { duration: 260, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' }
-          );
-          animation.onfinish = () => finish(false);
-          animation.oncancel = () => {
-            isClosing = false;
-          };
-        };
-
-        const toggle = () => {
-          if (!details) return;
-          if (isClosing || !details.open) expand();
-          else if (isExpanding || details.open) collapse();
-        };
-
-        if (details && summary && rest) {
-          summary.addEventListener('click', (e) => {
-            e.preventDefault();
-            toggle();
-          });
-
-          if (foldAllBtn) {
-            foldAllBtn.hidden = false;
-            foldAllBtn.addEventListener('click', toggle);
-          }
-
-          syncLabel();
-        }
-
-        const sortControls = section.querySelector<HTMLElement>('[data-sort-controls]');
-        const leadContainer = section.querySelector<HTMLElement>('[data-rows]:not([data-rest])');
-
-        if (sortControls && leadContainer && rest) {
-          const leadCount = leadContainer.children.length;
-          const key = (row: Element) => Number((row as HTMLElement).dataset.key) || 0;
-          const rank = (row: Element) => Number((row as HTMLElement).dataset.rank) || 0;
-          const compare: Record<string, (a: Element, b: Element) => number> = {
-            relevance: (a, b) => rank(a) - rank(b),
-            latest: (a, b) => key(b) - key(a) || rank(a) - rank(b),
-          };
-
-          sortControls.hidden = false;
-          sortControls.addEventListener('click', (e) => {
-            const option = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-sort]');
-            if (!option) return;
-
-            const order = option.dataset.sort ?? 'relevance';
-            const rows = [...leadContainer.children, ...rest.children];
-            const sorted = rows.sort(compare[order] ?? compare.relevance);
-            const pad = (n: number) => String(n).padStart(2, '0');
-
-            sorted.forEach((row, index) => {
-              (index < leadCount ? leadContainer : rest).append(row);
-              const number = row.querySelector('[data-row-number]');
-              if (number) number.textContent = pad(index + 1);
-            });
-
-            sortControls.querySelectorAll<HTMLButtonElement>('[data-sort]').forEach((opt) => {
-              opt.setAttribute('aria-pressed', String(opt.dataset.sort === order));
-            });
-
-            if (details && !details.open) expand();
-          });
-        }
-      });
     </script>
   </body>
 </html>

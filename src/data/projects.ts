@@ -12,7 +12,7 @@ export const projects: Project[] = [
   {
     name: 'EnvSync',
     description:
-      "A secrets management platform for teams, modeled after Doppler and Infisical. Organization and project-scoped secret storage with AES-256-GCM envelope encryption (a unique data key per org, wrapped by a server master key), role-based access down to the environment tier, full version history with rotation and restore, and an audit trail on every reveal. Ships with a CLI for pulling secrets straight into CI/CD.",
+      'A secrets management platform for teams, similar to Doppler or Infisical. Encrypted secret storage, role-based access, full version history, and a CLI for CI/CD.',
     tech: ['Next.js 16', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'CLI'],
     liveUrl: 'https://envsync-five.vercel.app',
     codeUrl: 'https://github.com/AshishLekhyani/EnvSync',
@@ -22,7 +22,7 @@ export const projects: Project[] = [
   {
     name: 'GitScope',
     description:
-      'A GitHub analytics and intelligence dashboard: repository health scoring, an AI-powered security scanner with CVE/CVSS lookups, contributor leaderboards, and DORA metrics, plus AI-generated PR descriptions and code review. Built on the Next.js App Router with React Server Components and a nine-provider AI cascade for resilience when any single provider is down.',
+      'A GitHub analytics dashboard with repository health scoring, an AI security scanner, contributor leaderboards, and DORA metrics.',
     tech: ['Next.js 15', 'TypeScript', 'NextAuth', 'Redux', 'TanStack Query', 'shadcn/ui'],
     liveUrl: 'https://git-scope-pi.vercel.app',
     codeUrl: 'https://github.com/AshishLekhyani/GitScope',
@@ -32,7 +32,7 @@ export const projects: Project[] = [
   {
     name: 'Video Codex',
     description:
-      'A video transcoding and encryption workspace built around a Rust processing engine, with Zstd compression for fast, space-efficient transfers and a dark, glass-panelled UI on top.',
+      'A video transcoding and encryption workspace built on a Rust processing engine, with Zstd compression for fast, space-efficient transfers.',
     tech: ['Rust', 'TypeScript', 'Zstd'],
     liveUrl: 'https://ashishlekhyani-video-codex.hf.space',
     codeUrl: 'https://github.com/AshishLekhyani/Video-Codex',
@@ -42,7 +42,7 @@ export const projects: Project[] = [
   {
     name: 'TimerGame',
     description:
-      'A millisecond-accurate timer/reaction game — stop the clock as close as you can to a target time. Built around imperative React patterns (forwardRef, useImperativeHandle) to expose a clean, encapsulated API from the timer component without breaking the declarative parent-child boundary, and React Portals for the results modal.',
+      'A millisecond-accurate timer and reaction game. Stop the clock as close as you can to a target time, built with React and Vite.',
     tech: ['React.js', 'Vite', 'React Portals'],
     liveUrl: 'https://timergame-app.netlify.app',
     codeUrl: 'https://github.com/AshishLekhyani/TimerGame',
@@ -52,7 +52,7 @@ export const projects: Project[] = [
   {
     name: 'NutriBite',
     description:
-      "A mobile-first landing page built on plain semantic HTML5 and hand-written CSS Grid/Flexbox — no framework. The focus was eliminating layout shift across breakpoints with custom grid media rules, which cut initial paint time by roughly 25%.",
+      'A mobile-first landing page built with plain HTML5 and hand-written CSS, no framework. Focused on eliminating layout shift, which cut initial paint time by about 25%.',
     tech: ['HTML5', 'CSS3', 'Responsive Design'],
     liveUrl: 'https://nutribite-app.netlify.app',
     codeUrl: 'https://github.com/AshishLekhyani/NutriBite',

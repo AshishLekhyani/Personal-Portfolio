@@ -14,14 +14,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 <a href={`/articles/${slug}`} class="group grid grid-cols-[26px_minmax(0,1fr)] gap-x-3 py-5">
   {number !== undefined && (
-    <span data-row-number class="pt-[3px] font-mono text-[11px] tracking-[0.02em] text-ink-soft [font-variant-ligatures:none]">
+    <span data-row-number class="pt-[3px] text-[13px] text-ink-soft">
       {pad(number)}
     </span>
   )}
   <div>
     <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
       <h3 class="font-sans text-sm font-bold text-ink group-hover:text-accent">{title}</h3>
-      <span class="font-mono text-xs text-ink-soft [font-variant-ligatures:none]">{formatted}</span>
+      <span class="text-xs text-ink-soft">{formatted}</span>
     </div>
     <p class="mt-2 text-sm leading-relaxed text-ink-muted">{description}</p>
   </div>

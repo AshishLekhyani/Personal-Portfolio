@@ -4,47 +4,17 @@ import type { Project } from '../data/projects';
 
 interface Props {
   projects: Project[];
-  lead?: number;
 }
 
-const { projects, lead = 2 } = Astro.props;
-const numbered = projects.map((project, index) => ({ project, rank: index + 1 }));
-const above = numbered.slice(0, lead);
-const below = numbered.slice(lead);
+const { projects } = Astro.props;
 ---
 
-<section id="projects" data-print-hide data-fold-section data-section="projects" class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
-  <div class="flex items-baseline justify-between gap-3">
-    <h2 class="font-serif text-[17px] text-accent italic">projects</h2>
-    <button type="button" data-fold-all hidden class="fold-all font-mono text-[11px] tracking-[0.04em] text-ink-soft whitespace-nowrap [font-variant-ligatures:none]">show all ↓</button>
-  </div>
+<section id="projects" data-print-hide class="mx-auto max-w-2xl scroll-mt-20 px-6 py-10">
+  <h2 class="font-serif text-[17px] text-accent italic">projects</h2>
 
-  <div class="mt-6 divide-y divide-rule-dot" data-rows>
-    {above.map(({ project, rank }) => (
-      <div data-rank={rank} data-key={new Date(project.sortDate).getTime()}>
-        <ProjectCard project={project} number={rank} />
-      </div>
+  <div class="mt-6 divide-y divide-rule-dot">
+    {projects.map((project, index) => (
+      <ProjectCard project={project} number={index + 1} />
     ))}
   </div>
-
-  {below.length > 0 && (
-    <details class="fold">
-      <summary class="fold-line">
-        <span aria-hidden="true" class="fade"></span>
-        <span class="fold-label font-mono text-[11px] tracking-[0.06em] text-ink-soft whitespace-nowrap [font-variant-ligatures:none]">
-          <span data-closed>{below.length} more, folded ↓</span>
-          <span data-open>fold back ↑</span>
-        </span>
-        <span aria-hidden="true" class="edges"></span>
-      </summary>
-
-      <div class="divide-y divide-rule-dot" data-rows data-rest>
-        {below.map(({ project, rank }, index) => (
-          <div style={`--i:${index}`} data-rank={rank} data-key={new Date(project.sortDate).getTime()}>
-            <ProjectCard project={project} number={rank} />
-          </div>
-        ))}
-      </div>
-    </details>
-  )}
 </section>

@@ -1,9 +1,9 @@
 export const site = {
   name: 'Ashish Lekhyani',
   role: 'Software Engineer',
-  tagline: 'Building products with intention, one thoughtful iteration at a time.',
+  tagline: "The best feeling isn't writing code. It's creating something that's yours and seeing others use it.",
   intro: [
-    "I enjoy building software that's intuitive and reliable. I'm constantly exploring the internet, finding better ways to build things, and figuring out how great products are built.",
+    "I enjoy shipping products that are simple and intuitive. I'm constantly exploring the internet, finding better ways to build things, and figuring out how great products are made.",
     "Outside of coding, you'll usually find me reading, learning more about personal finance, or exploring whatever has caught my curiosity next.",
   ],
   email: 'hello@ashishlekhyani.com',

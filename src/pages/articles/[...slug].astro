@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -46,13 +46,15 @@ const articleJsonLd = {
 };
 ---
 
-<Layout title={`${post.data.title} — Ashish Lekhyani`} description={post.data.description}>
-  <Header />
+<Layout title={`${post.data.title} - Ashish Lekhyani`} description={post.data.description}>
   <main>
-    <article class="mx-auto max-w-2xl px-6 pb-16 pt-16 sm:pt-24">
-      <a href="/articles" class="text-sm text-ink-soft hover:text-ink">← Articles</a>
-      <h1 class="mt-4 font-serif text-2xl italic text-ink">{post.data.title}</h1>
-      <p class="mt-2 font-mono text-xs text-ink-soft [font-variant-ligatures:none]">{formatted}</p>
+    <article class="mx-auto max-w-2xl px-6 pb-16 pt-10 sm:pt-14">
+      <div class="flex items-center justify-between">
+        <a href="/articles" class="text-sm text-ink-soft hover:text-ink">← Articles</a>
+        <ThemeToggle />
+      </div>
+      <h1 class="mt-6 font-serif text-2xl italic text-ink">{post.data.title}</h1>
+      <p class="mt-2 text-xs text-ink-soft">{formatted}</p>
       <div class="prose prose-sm mt-8 max-w-none text-ink prose-headings:font-serif prose-headings:italic prose-a:text-accent">
         <Content />
       </div>

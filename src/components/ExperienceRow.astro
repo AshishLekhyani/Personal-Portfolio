@@ -13,7 +13,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 <div class="row grid grid-cols-[26px_minmax(0,1fr)] gap-x-3 py-5" data-resume-entry>
   {number !== undefined && (
-    <span class="pt-[3px] font-mono text-[11px] tracking-[0.02em] text-ink-soft [font-variant-ligatures:none]">
+    <span class="pt-[3px] text-[13px] text-ink-soft">
       {pad(number)}
     </span>
   )}
@@ -21,14 +21,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="flex items-baseline gap-3">
       <h3 class="min-w-0 font-sans text-[15px] font-bold text-ink" data-entry-name>{org}</h3>
       <span aria-hidden="true" class="-translate-y-1 flex-1 border-b border-dotted border-rule-dot"></span>
-      <span class="whitespace-nowrap font-mono text-[11px] tracking-[0.02em] text-ink-soft [font-variant-ligatures:none]" data-entry-meta>
+      <span class="whitespace-nowrap text-[13px] text-ink-soft" data-entry-meta>
         {role}
       </span>
     </div>
     {description && <p class="mt-1.5 text-sm leading-relaxed text-ink-muted" data-entry-desc>{description}</p>}
 
     {badge && (
-      <a href={badge.url} target="_blank" rel="noreferrer" data-print-hide class="badge-slot mt-2.5 inline-flex w-max items-center gap-1 rounded-full border border-rule-dot px-2.5 py-1 font-mono text-[11px] text-ink-soft transition-colors hover:border-accent hover:text-ink [font-variant-ligatures:none]">
+      <a href={badge.url} target="_blank" rel="noreferrer" data-print-hide class="badge-slot mt-2.5 inline-flex w-max items-center gap-1 rounded-full border border-rule-dot px-2.5 py-1 text-[12px] text-ink-soft transition-colors hover:border-accent hover:text-ink">
         ↗ {badge.label}
       </a>
     )}

@@ -1,25 +1,22 @@
 ---
 import { lastShipped, languages } from '../data/github-activity';
 
-const opacities = [1, 0.62, 0.38, 0.22];
-
-const commitHash = '8ae5036';
+const opacityFor = (i: number) => Math.pow(0.62, i);
 ---
 
 <div class="mt-14 max-w-xl">
-  <p class="flex items-baseline justify-between font-mono text-[11px] tracking-[0.04em] text-ink-soft [font-variant-ligatures:none]">
-    <span>Last shipped <span class="text-ink">{lastShipped}</span> · stack across repos</span>
-    {commitHash && <span class="text-ink-soft">#{commitHash}</span>}
+  <p class="text-[13px] text-ink-soft">
+    Last shipped <span class="font-medium text-ink">{lastShipped}</span><span class="mx-1.5">·</span>stack across repos
   </p>
   <div class="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-rule-dot/30">
     {languages.map((lang, i) => (
-      <div style={`width:${lang.pct}%; background-color: color-mix(in oklab, var(--color-accent) ${opacities[i] * 100}%, transparent)`} />
+      <div style={`width:${lang.pct}%; background-color: color-mix(in oklab, var(--color-accent) ${opacityFor(i) * 100}%, transparent)`} />
     ))}
   </div>
-  <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-ink-soft [font-variant-ligatures:none]">
+  <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-ink-soft">
     {languages.map((lang, i) => (
       <li class="flex items-center gap-1.5">
-        <span class="size-2 rounded-full" style={`background-color: color-mix(in oklab, var(--color-accent) ${opacities[i] * 100}%, transparent)`} />
+        <span class="size-2 rounded-full" style={`background-color: color-mix(in oklab, var(--color-accent) ${opacityFor(i) * 100}%, transparent)`} />
         {lang.name} <span class="text-ink-soft">{lang.pct}%</span>
       </li>
     ))}
