@@ -35,7 +35,7 @@
       background 240ms ease,
       color 240ms ease,
       box-shadow 240ms ease,
-      transform 300ms cubic-bezier(0.34, 1.32, 0.64, 1);
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .orb:hover,
@@ -56,8 +56,17 @@
     top: 50%;
     width: 12px;
     height: 12px;
-    transform: translate(-50%, -50%) rotate(var(--turn, 0deg));
-    transition: transform 420ms cubic-bezier(0.34, 1.32, 0.64, 1);
+    --nudge-x: 0.6px;
+    --nudge-y: 0px;
+    translate: calc(-50% + var(--nudge-x)) calc(-50% + var(--nudge-y));
+    rotate: var(--turn, 0deg);
+    transition: rotate 420ms cubic-bezier(0.34, 1.32, 0.64, 1);
+  }
+
+  .orb:hover .wheel,
+  .orb:focus-visible .wheel {
+    --nudge-x: -0.6px;
+    --nudge-y: 0px;
   }
 
   .icon {
